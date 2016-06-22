@@ -1,0 +1,12 @@
+<div>Logged in as {{ request.user.get_full_name }} <a href="{% url 'accounts:logout' %}">Logout</a></div>
+
+<h3>Dashboard</h3>
+
+<h3>Accounts</h3>
+{% for account in request.user.accounts.all %}
+  <div>
+    <h2>{{ account.name }}</h2>
+  </div>
+{% endfor %}
+
+<a href="{% url 'budgets:transaction-add' %}">Record a transaction</a>

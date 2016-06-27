@@ -35,4 +35,11 @@ class DashboardView(TemplateView):
    
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
+        from apps.budgets.models import Transaction
+        from apps.budgets.models import Budget
+        transactions = Transaction.objects.filter(
+                            account__app_users=self.request.user)
+        print(dir(transactions))
+        context['budgets'] = Budget.objects.filter(pk__in=transactions)
+        print(context['budgets'])
         return context

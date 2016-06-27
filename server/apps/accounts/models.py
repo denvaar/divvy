@@ -84,7 +84,8 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
 
 
 class AppUser(BaseUser):
-    accounts = models.ManyToManyField('Account', blank=True)
+    accounts = models.ManyToManyField('Account', blank=True,
+                                      related_name='app_users')
     
     objects = BaseUserManager()
 

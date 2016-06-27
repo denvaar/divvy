@@ -1,0 +1,50 @@
+{% load staticfiles %}
+{% load render_widget from form_tags %}
+
+{% if bound_field.is_hidden %}
+    {{ bound_field }}
+{% else %}
+  <div class="input-group">
+    {% if input_type == "input" %}
+      <label class="label">{{ bound_field.label }}:</label>
+      {% render_widget bound_field class="input" %}
+    {% endif %}
+    {% if input_type == 'date' %}
+      <label class="label">{{ bound_field.label }}:</label>
+      {% render_widget bound_field class="input input-date" %}
+    {% endif %}
+    {% if input_type == 'horizontal_filter' %}
+      <label class="label">{{ bound_field.label }}:</label>
+      {% render_widget bound_field %}
+    {% endif %}
+    {% if input_type == 'editor' %}
+      <label class="label">{{ bound_field.label }}:</label>
+      {% render_widget bound_field class="textarea" %}
+    {% endif %}
+    {% if input_type == "textarea" %}
+      <label class="label">{{ bound_field.label }}:</label>
+      {% render_widget bound_field class="textarea" %}
+    {% endif %}
+    {% if input_type == "radio" %}
+      <label class="radio">
+        {% render_widget bound_field %}
+        <span></span>
+        {{ bound_field.label }}
+      </label>
+    {% endif %}
+    {% if input_type == "checkbox" %}
+      <label class="checkbox">
+        {% render_widget bound_field %}
+        <span class="control-indicator"></span>
+        {{ bound_field.label }}
+      </label>
+    {% endif %}
+    {% if input_type == "select" %}
+      {{ bound_field.label }}:
+      <label class="select">
+        {% render_widget bound_field %}
+        <span></span>
+      </label>
+    {% endif %}
+  </div>
+{% endif %}

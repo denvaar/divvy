@@ -8,7 +8,6 @@ class UserTypeMiddleware(object):
     
     def process_request(self, request):
         try:
-            print(type(request.user))
             request.user = BaseUser.objects.get_subclass(pk=request.user.pk)
         except BaseUser.DoesNotExist:
             path = request.get_full_path()

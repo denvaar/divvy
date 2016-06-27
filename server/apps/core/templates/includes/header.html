@@ -1,0 +1,9 @@
+<nav class="main-nav">
+  <ul>
+    <li class="logo">Divvy</li>
+    {% if request.user.is_authenticated %}
+    <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+    <li>{{ request.user.get_full_name }} <a href="{% url 'accounts:logout' %}">Logout</a></li>
+    {% endif %}
+  </ul>
+</nav>

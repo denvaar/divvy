@@ -1,6 +1,8 @@
-<html>
-<body>
+{% extends "base.html" %}
+{% load form_tags %}
 
+{% block content %}
+<div class="content">  
   {% if messages %}
   <ul class="messages">
       {% for message in messages %}
@@ -8,12 +10,10 @@
       {% endfor %}
   </ul>
   {% endif %} 
-  
-  <form method="post">
+  <form method="POST">
     {% csrf_token %}
-    {{ form.errors }}
-    {{ form }}
+    {{ form|as_vertical_form }}
     <button type="submit">Save Transaction</button>
   </form>
-</body>
-</html>
+</div>
+{% endblock content %}

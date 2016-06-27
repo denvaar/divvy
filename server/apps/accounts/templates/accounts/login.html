@@ -1,6 +1,13 @@
+{% extends "base.html" %}
+{% load form_tags %}
 
-<form name="loginForm" method="post">
-  {% csrf_token %}
-  {{ form }}
-  <input type="submit" value="Submit"/>
-</form>
+{% block content %}
+<div class="content">
+  <form name="loginForm" method="post">
+    {% csrf_token %}
+    {{ form|as_vertical_form }}
+    <input type="submit" value="Submit"/>
+  </form>
+</div>
+{% endblock content %}
+

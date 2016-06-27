@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+}
+html {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  color: #4b4d4c;
+}
+
+a {
+  color: #79b391;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #3FC380;
+}
+
+.main-nav {
+  background-color: #ecf0f1;
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+}
+
+.main-nav li {
+  width: 200px;
+}
+
+.main-nav .logo {
+  font-family: 'Pacifico', cursive;
+  font-size: 23px;
+}
+
+.content {
+  margin: 12px;
+}
+
+.errorlist {
+  font-size: 12px;
+  background: rgba(255, 255, 255, .5);
+  border: solid 1px color(neutral-3);
+  padding: 10px;
+}
+.errorlist  li {
+    color: #E74C3C;
+    padding: 0;
+    list-style: none;
+}

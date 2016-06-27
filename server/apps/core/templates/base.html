@@ -1,0 +1,22 @@
+{% load staticfiles %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+</head>
+
+<body>
+
+  {% block header %}
+    {% include "includes/header.html" %}
+  {% endblock header %}
+
+  {% block content %}
+  {% endblock content %}
+
+</body>
+
+</html>

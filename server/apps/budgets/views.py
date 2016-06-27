@@ -15,3 +15,7 @@ class TransactionAddView(SuccessMessageMixin, CreateView):
     def get_success_url(self):
         return reverse('budgets:transaction-add')
  
+    def get_context_data(self, **kwargs):
+        context = super(TransactionAddView, self).get_context_data(**kwargs)
+        return context
+    

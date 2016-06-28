@@ -2,11 +2,13 @@
 {% load form_tags %}
 
 {% block content %}
-<div class="content">
+<div class="centered-container">
   <form name="loginForm" method="post">
     {% csrf_token %}
     {{ form|as_vertical_form }}
-    <input type="submit" value="Submit"/>
+    <div class="action-group">
+      <input type="submit" class="button" value="Login"/>
+    </div>
   </form>
 </div>
 {% endblock content %}

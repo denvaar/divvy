@@ -4,7 +4,8 @@
 {% if bound_field.is_hidden %}
     {{ bound_field }}
 {% else %}
-  <div class="input-group">
+  {% if bound_field.errors %}<div class="input-group errors">{% else %}
+  <div class="input-group">{% endif %}
     {% if input_type == "input" %}
       <label class="label">{{ bound_field.label }}:</label>
       {% render_widget bound_field class="input" %}

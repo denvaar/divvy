@@ -10,7 +10,12 @@ from .forms import LoginForm
 class LoginFormView(FormView):
     template_name = 'accounts/login.html'
     form_class = LoginForm
-    success_url = reverse_lazy('accounts:dashboard')
+
+    def get_success_url(self):
+        next_param = self.request.GET.get('next', None)
+        if next_param:
+            return next_param
+        return reverse_lazy('accounts:dashboard')
 
     def form_valid(self, form):
         email = form.cleaned_data.get('email')
@@ -39,7 +44,5 @@ class DashboardView(TemplateView):
         from apps.budgets.models import Budget
         transactions = Transaction.objects.filter(
                             account__app_users=self.request.user)
-        print(dir(transactions))
         context['budgets'] = Budget.objects.filter(pk__in=transactions)
-        print(context['budgets'])
         return context

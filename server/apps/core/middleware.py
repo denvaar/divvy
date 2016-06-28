@@ -11,7 +11,8 @@ class UserTypeMiddleware(object):
             request.user = BaseUser.objects.get_subclass(pk=request.user.pk)
         except BaseUser.DoesNotExist:
             path = request.get_full_path()
-            if (not path == reverse('accounts:login') and
+            login_url = reverse('accounts:login')
+            if (not request.path == login_url and
                 '/admin' not in path):
-                return redirect('accounts:login')
+                return redirect('%s?next=%s' % (login_url, request.path))
 

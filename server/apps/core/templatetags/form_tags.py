@@ -16,7 +16,6 @@ def render_non_field_errors(errors):
     if not errors:
         return ''
     context = {'errors': errors}
-    print(context)
     return render_to_string(TEMPLATE_ERRORS, context=context)
 
 
@@ -48,7 +47,6 @@ def render_field(bound_field, show_label, template):
     return render_to_string(template, context=context)
 
 def as_form(obj, show_label, template):
-    print(obj, type(obj))
     if isinstance(obj, BoundField):
         return render_field(obj, show_label, template)
     elif isinstance(obj, ErrorList):

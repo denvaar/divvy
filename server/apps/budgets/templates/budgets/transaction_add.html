@@ -13,7 +13,10 @@
   <form method="POST">
     {% csrf_token %}
     {{ form|as_vertical_form }}
-    <button type="submit">Save Transaction</button>
+    <div class="action-group">
+        <button type="submit" class="button" name="cancel">Cancel</button>
+        <button type="submit" class="button button-color-1">Save Transaction</button>
+    </div>
   </form>
 </div>
 {% endblock content %}

@@ -7,16 +7,17 @@ html {
 }
 
 a {
-  color: #79b391;
+  color: #22313F;
   text-decoration: none;
 }
 
 a:hover {
-  color: #3FC380;
+  color: #445667;
 }
 
 .main-nav {
-  background-color: #ecf0f1;
+  background-color: #68C3A3;
+  height: 50px;
 }
 
 .main-nav ul {
@@ -27,10 +28,15 @@ a:hover {
 .main-nav li {
   width: 200px;
 }
-
+.main-nav .user {
+  margin-left: auto;
+}
 .main-nav .logo {
   font-family: 'Pacifico', cursive;
-  font-size: 23px;
+  font-size: 30px;
+  cursor: default;
+  margin-top: -5px;
+  margin-left: -29px;
 }
 
 .content {
@@ -47,4 +53,61 @@ a:hover {
     color: #E74C3C;
     padding: 0;
     list-style: none;
+}
+
+.errors {
+}
+.errors .input {
+  border: 1px solid rgba(231, 76, 60, 0.72) !important;
+  box-shadow: inset 0 0 1px #E74C3C;
+  
+}
+
+.button {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #4b4d4c;
+  cursor: pointer;
+  border-radius: 4px;
+  color: #4b4d4c;
+  background-color: #FFF;
+}
+
+.button-color-1 {
+  background-color: #FF9F55;
+  color: white;
+  border: none;
+}
+
+form .action-group {
+  margin: 10px 0 0;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.input-group {
+  display: block;
+  margin-top: 7px;
+}
+.input-group .input {
+  border: solid 1px #cbcfd0;
+  border-radius: 4px;
+  font-size: 15px;
+  width: 100%;
+  color: #4b4d4c;
+}
+
+.centered-container {
+   margin: 12px;
+   display: -webkit-flex;
+   display: flex;
+   -webkit-flex-direction: column;
+   flex-direction: column;
+   -webkit-align-items: center;
+   align-items: center;
+   -webkit-justify-content: center;
+   justify-content: center;
 }

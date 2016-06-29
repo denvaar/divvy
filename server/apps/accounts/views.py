@@ -4,6 +4,10 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView, View
 
+from apps.budgets.models import Transaction
+from apps.budgets.models import Budget
+from apps.accounts.models import Account
+
 from .forms import LoginForm
 
 
@@ -40,9 +44,13 @@ class DashboardView(TemplateView):
    
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
-        from apps.budgets.models import Transaction
-        from apps.budgets.models import Budget
+
         transactions = Transaction.objects.filter(
-                            account__app_users=self.request.user)
+            account__app_users=self.request.user).order_by('-created')
+        context['transactions'] = transactions
         context['budgets'] = Budget.objects.filter(pk__in=transactions)
+        context['total_balance'] = 0.0
+        for account in self.request.user.accounts.all():
+            context['total_balance'] += float(account.balance)
         return context
+

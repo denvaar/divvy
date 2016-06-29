@@ -8,7 +8,7 @@
   <div class="input-group">{% endif %}
     {% if input_type == "input" %}
       <label class="label">{{ bound_field.label }}:</label>
-      {% render_widget bound_field class="input" %}
+      {% render_widget bound_field class="input" placeholder=bound_field.label %}
     {% endif %}
     {% if input_type == 'date' %}
       <label class="label">{{ bound_field.label }}:</label>

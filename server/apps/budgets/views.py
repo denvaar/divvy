@@ -1,6 +1,7 @@
 from django.views.generic.edit import CreateView
 from django.core.urlresolvers import reverse
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 
 from .models import Transaction
 from .forms import TransactionDetailForm
@@ -12,6 +13,11 @@ class TransactionAddView(SuccessMessageMixin, CreateView):
     form_class = TransactionDetailForm
     success_message = "Transaction recorded."
 
+    def post(self, *args, **kwargs):
+        if 'cancel' in self.request.POST:
+            return HttpResponseRedirect(reverse('accounts:dashboard'))
+        return super(TransactionAddView, self).post(*args, **kwargs)
+    
     def get_success_url(self):
         return reverse('budgets:transaction-add')
  

@@ -16,7 +16,7 @@ a:hover {
 }
 
 .main-nav {
-  background-color: #68C3A3;
+  background-color: #5eab7d;
   height: 50px;
 }
 
@@ -30,7 +30,13 @@ a:hover {
 }
 .main-nav .user {
   margin-left: auto;
+  -webkit-box-align: center;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
 }
+
+ 
 .main-nav .logo {
   font-family: 'Pacifico', cursive;
   font-size: 30px;
@@ -39,8 +45,21 @@ a:hover {
   margin-left: -29px;
 }
 
+
+
 .content {
   margin: 12px;
+}
+
+.success {
+    display: block;
+    font-weight: 400;
+    font-size: 13px;
+    padding: 10px 10px 10px 65px;
+    margin: 0 0 10px 0;
+    background: #dfd url(../img/icon-yes.svg) 40px 12px no-repeat;
+    background-size: 16px auto;
+    color: #4caf50;
 }
 
 .errorlist {
@@ -60,7 +79,11 @@ a:hover {
 .errors .input {
   border: 1px solid rgba(231, 76, 60, 0.72) !important;
   box-shadow: inset 0 0 1px #E74C3C;
-  
+}
+
+.errors select {
+  border: 1px solid rgba(231, 76, 60, 0.72) !important;
+  box-shadow: inset 0 0 1px #E74C3C;
 }
 
 .button {
@@ -79,6 +102,14 @@ a:hover {
   border: none;
 }
 
+.text-color-green {
+  color: #2fa75b;
+}
+
+.text-color-red {
+  color: #ce4e4e;
+}
+
 form .action-group {
   margin: 10px 0 0;
   display: -webkit-flex;
@@ -92,7 +123,17 @@ form .action-group {
   display: block;
   margin-top: 7px;
 }
+
 .input-group .input {
+  border: solid 1px #cbcfd0;
+  border-radius: 4px;
+  font-size: 15px;
+  width: 100%;
+  color: #4b4d4c;
+}
+
+.input-group select {
+  background: #FFF;
   border: solid 1px #cbcfd0;
   border-radius: 4px;
   font-size: 15px;

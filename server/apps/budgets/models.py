@@ -76,7 +76,8 @@ class Transaction(models.Model):
     created = models.DateTimeField(default=timezone.now)
     tags = models.ManyToManyField('Tag', blank=True)
     account = models.ForeignKey('accounts.Account', related_name='transactions')
-    budget = models.ForeignKey('budgets.Budget', related_name='transactions')
+    budget = models.ForeignKey('budgets.Budget', blank=True, null=True,
+                               related_name='transactions')
 
     def __str__(self):
         return "[ {2} ] {0}  {1}".format(self.name,

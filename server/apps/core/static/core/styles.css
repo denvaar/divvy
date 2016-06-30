@@ -125,7 +125,7 @@ form .action-group {
 }
 
 .input-group .input {
-  border: solid 1px #cbcfd0;
+  border: solid 1px #4b4d4c;
   border-radius: 4px;
   font-size: 15px;
   width: 100%;
@@ -134,7 +134,7 @@ form .action-group {
 
 .input-group select {
   background: #FFF;
-  border: solid 1px #cbcfd0;
+  border: solid 1px #4b4d4c;
   border-radius: 4px;
   font-size: 15px;
   width: 100%;

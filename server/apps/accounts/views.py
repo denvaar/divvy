@@ -1,14 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView, View
+from django.contrib.messages.views import SuccessMessageMixin
 
 from apps.budgets.models import Transaction
 from apps.budgets.models import Budget
 from apps.accounts.models import Account
 
-from .forms import LoginForm
+from .forms import LoginForm, AccountDetailForm
 
 
 class LoginFormView(FormView):
@@ -39,7 +40,7 @@ class LogoutView(View):
         return redirect(reverse('accounts:login'))
 
 
-class DashboardView(TemplateView):
+class DashboardView(SuccessMessageMixin, TemplateView):
     template_name = 'accounts/dashboard.html'
    
     def get_context_data(self, **kwargs):
@@ -48,9 +49,29 @@ class DashboardView(TemplateView):
         transactions = Transaction.objects.filter(
             account__app_users=self.request.user).order_by('-created')
         context['transactions'] = transactions
-        context['budgets'] = Budget.objects.filter(pk__in=transactions)
+        #context['budgets'] = Budget.objects.filter(
+        #    pk__in=transactions.values_list('budget', flat=True))
         context['total_balance'] = 0.0
         for account in self.request.user.accounts.all():
             context['total_balance'] += float(account.balance)
         return context
+
+class AccountAddView(SuccessMessageMixin, CreateView):
+    template_name = 'accounts/account_add.html'
+    model = Account
+    form_class = AccountDetailForm
+    success_message = "Account created."
+
+    def post(self, *args, **kwargs):
+        if 'cancel' in self.request.POST:
+            return HttpResponseRedirect(reverse('accounts:dashboard'))
+        return super(AccountAddView, self).post(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('accounts:dashboard')
+
+    def get_form_kwargs(self):
+        kwargs = super(AccountAddView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 

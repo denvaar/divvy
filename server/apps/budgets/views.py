@@ -3,8 +3,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 
-from .models import Transaction
-from .forms import TransactionDetailForm
+from .models import Transaction, Budget, ExpenseBudget
+from .forms import TransactionDetailForm, BudgetDetailForm
 
 
 class TransactionAddView(SuccessMessageMixin, CreateView):
@@ -24,4 +24,19 @@ class TransactionAddView(SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(TransactionAddView, self).get_context_data(**kwargs)
         return context
+
+
+class BudgetAddView(SuccessMessageMixin, CreateView):
+    template_name = 'budgets/budget_add.html'
+    model = ExpenseBudget
+    form_class = BudgetDetailForm
+    success_message = "Budget created."
     
+    def post(self, *args, **kwargs):
+        if 'cancel' in self.request.POST:
+            return HttpResponseRedirect(reverse('accounts:dashboard'))
+        return super(BudgetAddView, self).post(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('accounts:dashboard')
+

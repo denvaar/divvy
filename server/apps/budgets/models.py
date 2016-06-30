@@ -10,6 +10,7 @@ class Budget(models.Model):
     The "non-budget" budget for transactions that aren't put
     anywhere else.
     """
+    user = models.ForeignKey('accounts.AppUser', related_name='budgets')
     title = models.CharField(max_length=254)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     created = models.DateTimeField(default=timezone.now) 

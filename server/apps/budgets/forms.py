@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Transaction
+from .models import Transaction, Budget, ExpenseBudget
 
 
 class TransactionDetailForm(forms.ModelForm):
@@ -19,3 +19,11 @@ class TransactionDetailForm(forms.ModelForm):
                     "Invalid amount for transaction type."
                     " Use negative amount for debits and "
                     "positive amount for credits.")
+
+
+class BudgetDetailForm(forms.ModelForm):
+    
+    class Meta:
+        model = ExpenseBudget
+        exclude = []
+

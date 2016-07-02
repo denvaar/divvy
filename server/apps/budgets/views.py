@@ -3,8 +3,14 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 
-from .models import Transaction, Budget, ExpenseBudget
-from .forms import TransactionDetailForm, BudgetDetailForm
+from .models import (
+    Transaction,
+    Budget,
+    ExpenseBudget,
+    SavingsBudget
+)
+
+from .forms import TransactionDetailForm, get_budget_form
 
 
 class TransactionAddView(SuccessMessageMixin, CreateView):
@@ -29,8 +35,10 @@ class TransactionAddView(SuccessMessageMixin, CreateView):
 class BudgetAddView(SuccessMessageMixin, CreateView):
     template_name = 'budgets/budget_add.html'
     model = ExpenseBudget
-    form_class = BudgetDetailForm
     success_message = "Budget created."
+    
+    def get_form_class(self):
+        return get_budget_form(SavingsBudget)
     
     def post(self, *args, **kwargs):
         if 'cancel' in self.request.POST:

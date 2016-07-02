@@ -27,3 +27,28 @@ class BudgetDetailForm(forms.ModelForm):
         model = ExpenseBudget
         exclude = []
 
+def get_budget_form(budget_model):
+    
+    TYPES = (
+        ('savings', 'Savings'),
+        ('expense', 'Expense'),
+        ('debt', 'Debt payment'),
+    )
+
+    class BudgetForm(forms.ModelForm):
+        
+        budget_type = forms.ChoiceField(choices=TYPES,
+                        label='What will this budget be used for?',
+                        widget=forms.Select(
+                            attrs={'onChange': 'getFormType()'}))
+        
+        class Meta:
+            model = budget_model
+            exclude = []
+
+        def __init__(self, *args, **kwargs):
+            super(BudgetForm, self).__init__(*args, **kwargs)
+            print(self.fields)
+
+    return BudgetForm
+    

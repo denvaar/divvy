@@ -7,23 +7,23 @@
   {% if bound_field.errors %}<div class="input-group errors">{% else %}
   <div class="input-group">{% endif %}
     {% if input_type == "input" %}
-      <label class="label">{{ bound_field.label }}:</label>
+      <label class="label">{{ bound_field.label }}</label>
       {% render_widget bound_field class="input" placeholder=bound_field.label %}
     {% endif %}
     {% if input_type == 'date' %}
-      <label class="label">{{ bound_field.label }}:</label>
+      <label class="label">{{ bound_field.label }}</label>
       {% render_widget bound_field class="input input-date" %}
     {% endif %}
     {% if input_type == 'horizontal_filter' %}
-      <label class="label">{{ bound_field.label }}:</label>
+      <label class="label">{{ bound_field.label }}</label>
       {% render_widget bound_field %}
     {% endif %}
     {% if input_type == 'editor' %}
-      <label class="label">{{ bound_field.label }}:</label>
+      <label class="label">{{ bound_field.label }}</label>
       {% render_widget bound_field class="textarea" %}
     {% endif %}
     {% if input_type == "textarea" %}
-      <label class="label">{{ bound_field.label }}:</label>
+      <label class="label">{{ bound_field.label }}</label>
       {% render_widget bound_field class="textarea" %}
     {% endif %}
     {% if input_type == "radio" %}
@@ -41,7 +41,7 @@
       </label>
     {% endif %}
     {% if input_type == "select" %}
-      {{ bound_field.label }}:
+      {{ bound_field.label }}
       <label class="select">
         {% render_widget bound_field %}
         <span></span>

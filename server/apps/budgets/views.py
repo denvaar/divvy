@@ -38,8 +38,13 @@ class BudgetAddView(SuccessMessageMixin, CreateView):
     success_message = "Budget created."
     
     def get_form_class(self):
-        return get_budget_form(SavingsBudget)
-    
+        return get_budget_form(Budget)
+
+    def get_context_data(self, **kwargs):
+        context = super(BudgetAddView, self).get_context_data(**kwargs)
+        context['group'] = 'expense'
+        return context
+
     def post(self, *args, **kwargs):
         if 'cancel' in self.request.POST:
             return HttpResponseRedirect(reverse('accounts:dashboard'))

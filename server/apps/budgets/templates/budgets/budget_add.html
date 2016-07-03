@@ -19,4 +19,18 @@
     </div>
   </form>
 </div>
+
+<script>
+    function getFormGroup() {
+      var group_label = "{{ group }}";
+      var selected_group = document.getElementById('id_budget_type').value;
+      var groups = document.querySelectorAll('[data-groupid]');
+      groups.forEach(function(element) {
+        if (element.dataset.groupid === 'group_' + selected_group) {
+          element.classList.toggle('hidden');
+        }
+      });
+    }
+</script>
+
 {% endblock content %}

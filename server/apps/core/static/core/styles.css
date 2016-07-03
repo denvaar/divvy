@@ -15,6 +15,10 @@ a:hover {
   color: #445667;
 }
 
+.hidden {
+  display: none;
+}
+
 .main-nav {
   background-color: #5eab7d;
   height: 50px;

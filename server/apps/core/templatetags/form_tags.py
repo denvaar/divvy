@@ -10,6 +10,7 @@ from django.utils.safestring import mark_safe
 register = Library()
 
 VERTICAL_TEMPLATE = 'forms/forms.html'
+DYNAMIC_TEMPLATE = 'forms/dynamic_forms.html'
 TEMPLATE_ERRORS = 'forms/non_field_errors.html'
 
 def render_non_field_errors(errors):
@@ -60,6 +61,11 @@ def as_form(obj, show_label, template):
         raise TemplateSyntaxError('Filter accepts form, field and non fields '
                                   'errors.')
 
+
+@register.filter
+def as_dynamic_form(obj, show_label=True):
+    return as_form(obj=obj, show_label=show_label,
+                   template=DYNAMIC_TEMPLATE)
 
 @register.filter
 def as_vertical_form(obj, show_label=True):

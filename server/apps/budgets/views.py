@@ -7,10 +7,11 @@ from .models import (
     Transaction,
     Budget,
     ExpenseBudget,
-    SavingsBudget
+    SavingsBudget,
+    DebtBudget
 )
 
-from .forms import TransactionDetailForm, get_budget_form
+from .forms import TransactionDetailForm, dynamic_form_factory
 
 
 class TransactionAddView(SuccessMessageMixin, CreateView):
@@ -38,7 +39,14 @@ class BudgetAddView(SuccessMessageMixin, CreateView):
     success_message = "Budget created."
     
     def get_form_class(self):
-        return get_budget_form(Budget)
+        groups = (
+            ('savings', SavingsBudget),
+            ('expense', ExpenseBudget),
+            ('debt', DebtBudget)
+        )
+        return dynamic_form_factory(base_model=Budget,
+                                    groups=groups,
+                                    label='What type of budget do you want?')
 
     def get_context_data(self, **kwargs):
         context = super(BudgetAddView, self).get_context_data(**kwargs)

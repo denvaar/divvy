@@ -22,12 +22,20 @@
 
 <script>
     function getFormGroup() {
-      var group_label = "{{ group }}";
-      var selected_group = document.getElementById('id_budget_type').value;
+      var selected_group = document.getElementById('id_group_select').value;
+      var opts = Array.apply(null, document.getElementById('id_group_select').options);
+      var all_groups = opts.map(function(option) {
+        option.value === '' ? return null : return option.value;
+      });
+      console.log(all_groups);
+
+
+      console.log(document.getElementById('id_group_select').options);
       var groups = document.querySelectorAll('[data-groupid]');
       groups.forEach(function(element) {
-        if (element.dataset.groupid === 'group_' + selected_group) {
-          element.classList.toggle('hidden');
+        if (element.dataset.groupid === `group_${selected_group}`) {
+          element.parentElement.classList.toggle('hidden');
+          console.log(element.parentElement);
         }
       });
     }

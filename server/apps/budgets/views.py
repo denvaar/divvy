@@ -46,11 +46,11 @@ class BudgetAddView(SuccessMessageMixin, CreateView):
         )
         return dynamic_form_factory(base_model=Budget,
                                     groups=groups,
-                                    label='What type of budget do you want?')
+                                    label='What type of budget do you want?',
+                                    excluded_fields=['period'])
 
     def get_context_data(self, **kwargs):
         context = super(BudgetAddView, self).get_context_data(**kwargs)
-        context['group'] = 'expense'
         return context
 
     def post(self, *args, **kwargs):

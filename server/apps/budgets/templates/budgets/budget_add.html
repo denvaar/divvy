@@ -12,6 +12,7 @@
   {% endif %} 
   <form method="POST">
     {% csrf_token %}
+    {{form.errors}}
     {{ form|as_vertical_form }}
     <div class="action-group">
         <button type="submit" class="button" name="cancel">Cancel</button>
@@ -21,24 +22,35 @@
 </div>
 
 <script>
+    window.onload = getFormGroup;
+
+    function upTo(el, tagName) {
+      tagName = tagName.toLowerCase();
+
+      while (el && el.parentNode) {
+        el = el.parentNode;
+        if (el.tagName && el.tagName.toLowerCase() == tagName) {
+          return el;
+        }
+      }
+      return null;
+    }
+
     function getFormGroup() {
-      var selected_group = document.getElementById('id_group_select').value;
+      var selectedGroup = document.getElementById('id_group_select').value;
       var opts = Array.apply(null, document.getElementById('id_group_select').options);
-      var all_groups = opts.map(function(option) {
-        option.value === '' ? return null : return option.value;
-      });
-      console.log(all_groups);
-
-
-      console.log(document.getElementById('id_group_select').options);
+      
       var groups = document.querySelectorAll('[data-groupid]');
       groups.forEach(function(element) {
-        if (element.dataset.groupid === `group_${selected_group}`) {
-          element.parentElement.classList.toggle('hidden');
-          console.log(element.parentElement);
+        if (element.dataset.groupid === `group_${selectedGroup}`) {
+          upTo(element, 'DIV').classList.remove('hidden');
+        } else {
+          upTo(element, 'DIV').classList.add('hidden');
         }
       });
     }
+
+
 </script>
 
 {% endblock content %}

@@ -1,3 +1,6 @@
+from copy import copy
+import uuid
+
 from django import forms
 
 from .models import (
@@ -50,6 +53,11 @@ def dynamic_form_factory(base_model, groups,
         ('expense', 'Expense'),
         ('debt', 'Debt payment'),
     )
+    MODELS = {
+        'savings': SavingsBudget,
+        'expense': ExpenseBudget,
+        'debt': DebtBudget
+    }
 
     # Grab extra fields to include
     extra_fields = {}
@@ -60,8 +68,21 @@ def dynamic_form_factory(base_model, groups,
                 if field.formfield():
                     extra_fields[model_mapping[0]].append(
                         (field.verbose_name, field.formfield()))
-    for k,v in extra_fields.items():
-        print(k,v)
+    
+    def make_unique(fields):
+        new = copy(fields)
+        seen = {}
+        all_fields = [i for sub in fields.values() for i in sub]
+        for group, _fields in fields.items():
+            for field in _fields:
+                if field[0] in seen:
+                    dup = new[group].pop(new[group].index(field))
+                    print("^",field[1], dir(field[1]))
+                    new[group].append((dup[0]+'_'+uuid.uuid4().hex[:5], dup[1]))
+                else:
+                    seen[field[0]] = True
+        print(seen)
+        return new      
 
     class _Form(forms.ModelForm):
         
@@ -74,19 +95,42 @@ def dynamic_form_factory(base_model, groups,
         class Meta:
             model = base_model
             exclude = excluded_fields
-
+        
         def __init__(self, *args, **kwargs):
             super(_Form, self).__init__(*args, **kwargs)
+            # Make sure there's no fields with the same name
+            # in different groups.
+            _extra_fields = make_unique(extra_fields)
             # Now add the extra form fields from the groups.
-            for group, fields in extra_fields.items():
+            for group, fields in _extra_fields.items():
                 for _field in fields:
+                    print(_field)
                     self.fields[_field[0]] = _field[1]
                     self.fields[_field[0]].widget.attrs['data-groupid'] = \
                             'group_{}'.format(group)
-                        #widget=field.widget(
-                        #attrs={'data-groupid': 'group_{}'.format('')}))
+                    self.fields[_field[0]].required = False
 
+        def clean(self):
+            cleaned_data = super(_Form, self).clean()
+            selected_group = cleaned_data['group_select']
+            for _,f in self.fields.items():
+                try:
+                    if f.widget.attrs['data-groupid'].split('group_')[1] != selected_group:
+                        f.required = False
+                except KeyError:
+                    continue
+            print("-->",cleaned_data)
+
+        def save(self):
+            data = self.cleaned_data
+            _model = MODELS[data['group_select']]
+            data.pop('group_select')
+            print(data)
+            _model.objects.create(**data)
+    
     return _Form
+
+
 
 def get_budget_form(base_model):
     

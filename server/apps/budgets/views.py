@@ -1,3 +1,4 @@
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 from django.core.urlresolvers import reverse
 from django.contrib.messages.views import SuccessMessageMixin
@@ -11,7 +12,7 @@ from .models import (
     DebtBudget
 )
 
-from .forms import TransactionDetailForm, dynamic_form_factory
+from .forms import TransactionDetailForm
 
 
 class TransactionAddView(SuccessMessageMixin, CreateView):
@@ -33,31 +34,10 @@ class TransactionAddView(SuccessMessageMixin, CreateView):
         return context
 
 
-class BudgetAddView(SuccessMessageMixin, CreateView):
-    template_name = 'budgets/budget_add.html'
-    model = ExpenseBudget
-    success_message = "Budget created."
+class BudgetSelectView(TemplateView):
+    template_name = 'budgets/budget_select.html'
     
-    def get_form_class(self):
-        groups = (
-            ('savings', SavingsBudget),
-            ('expense', ExpenseBudget),
-            ('debt', DebtBudget)
-        )
-        return dynamic_form_factory(base_model=Budget,
-                                    groups=groups,
-                                    label='What type of budget do you want?',
-                                    excluded_fields=['period'])
-
     def get_context_data(self, **kwargs):
-        context = super(BudgetAddView, self).get_context_data(**kwargs)
+        context = super(BudgetSelectView, self).get_context_data(**kwargs)
         return context
-
-    def post(self, *args, **kwargs):
-        if 'cancel' in self.request.POST:
-            return HttpResponseRedirect(reverse('accounts:dashboard'))
-        return super(BudgetAddView, self).post(*args, **kwargs)
-
-    def get_success_url(self):
-        return reverse('accounts:dashboard')
 

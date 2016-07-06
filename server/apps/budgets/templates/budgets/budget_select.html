@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load form_tags %}
+
+{% block content %}
+<div class="content">  
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %} 
+
+  <div>
+    <h3><a href="{% url 'budgets:budget-add' type='savings'">Savings</a></h3>
+    <p>A savings budget helps you plan to reach an expensive goal.</p>
+    <p>(ex. "College Fund", "Seattle Trip Savings", "New Car")</p>
+  </div>
+  
+  <div>
+    <h3>Expense</h3>
+    <p>An expense budget helps you to track and plan wisely for recurring expenses.</p>
+    <p>(ex. "Groceries", "Rent", "Gas", "New Clothes")</p>
+  </div>
+
+  <div>
+    <h3>Debt</h3>
+    <p>A debt budget helps you to eliminate debt.</p>
+    <p>(ex. "Subaru Car Payment", "Student Loans")</p>
+  </div>
+
+</div>
+
+{% endblock content %}

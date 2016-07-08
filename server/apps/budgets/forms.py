@@ -30,4 +30,19 @@ class TransactionDetailForm(forms.ModelForm):
                     "positive amount for credits.")
 
 
+def get_budget_form(budget_type):
     
+    budgets = {
+        'savings': SavingsBudget,
+        'expense': ExpenseBudget,
+        'debt': DebtBudget
+    }
+
+    class BudgetForm(forms.ModelForm):
+        
+        class Meta:
+            model = budgets[budget_type]
+            exclude = []
+
+    return BudgetForm
+

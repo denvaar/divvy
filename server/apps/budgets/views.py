@@ -12,7 +12,7 @@ from .models import (
     DebtBudget
 )
 
-from .forms import TransactionDetailForm
+from .forms import TransactionDetailForm, get_budget_form
 
 
 class TransactionAddView(SuccessMessageMixin, CreateView):
@@ -40,4 +40,16 @@ class BudgetSelectView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(BudgetSelectView, self).get_context_data(**kwargs)
         return context
+
+
+class BudgetAddView(CreateView):
+    template_name = 'budgets/budget_add.html'
+    #model = SavingsBudget
+
+    def get_form_class(self):
+        budget_type = self.kwargs.get('type', None)
+        return get_budget_form(budget_type)
+
+    def get_success_url(self):
+        return reverse('accounts:dashboard')
 

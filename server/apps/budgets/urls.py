@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import TransactionAddView, BudgetSelectView
+from .views import TransactionAddView, BudgetSelectView, BudgetAddView
 
 
 urlpatterns = [
@@ -10,4 +10,6 @@ urlpatterns = [
         name='budget-select'),
     url(r'^budget/(?P<pk>\d+)/add/?$', TransactionAddView.as_view(),
         name='transaction-add'),
+    url(r'^budget/(?P<type>savings|expense|debt)/add/?$',
+        BudgetAddView.as_view(), name='budget-add'),
 ]

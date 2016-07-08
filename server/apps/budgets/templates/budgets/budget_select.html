@@ -11,24 +11,36 @@
   </ul>
   {% endif %} 
 
-  <div>
-    <h3><a href="{% url 'budgets:budget-add' type='savings'">Savings</a></h3>
-    <p>A savings budget helps you plan to reach an expensive goal.</p>
-    <p>(ex. "College Fund", "Seattle Trip Savings", "New Car")</p>
-  </div>
+ <a href="{% url 'budgets:budget-add' type='savings' %}">
+   <div class="card card--fixedWidth">
+     <div class="card__price">Savings</div>
+     <div class="card__description">
+       <div class="icon fa fa-list-alt card__descriptionIcon"></div>
+       <div class="card__descriptionText">A savings budget helps you plan to reach an expensive goal (ex. "College Fund", "Seattle Trip Savings", "New Car")</div>
+     </div>
+   </div>
+ </a>
+ 
+ <a href="{% url 'budgets:budget-add' type='expense' %}">
+   <div class="card card--fixedWidth">
+     <div class="card__price">Expense</div>
+     <div class="card__description">
+       <div class="icon fa fa-list-alt card__descriptionIcon"></div>
+       <div class="card__descriptionText">An expense budget helps you to track and plan wisely for recurring expenses (ex. "Groceries", "Rent", "Gas", "New Clothes").</div>
+     </div>
+   </div> 
+ </a>
+
+ <a href="{% url 'budgets:budget-add' type='debt' %}">
+   <div class="card card--fixedWidth">
+     <div class="card__price">Debt</div>
+     <div class="card__description">
+       <div class="icon fa fa-list-alt card__descriptionIcon"></div>
+       <div class="card__descriptionText">A debt budget helps you to eliminate debt (ex. "Subaru Car Payment", "Student Loans")</div>
+     </div>
+   </div> 
+ </a>
   
-  <div>
-    <h3>Expense</h3>
-    <p>An expense budget helps you to track and plan wisely for recurring expenses.</p>
-    <p>(ex. "Groceries", "Rent", "Gas", "New Clothes")</p>
-  </div>
-
-  <div>
-    <h3>Debt</h3>
-    <p>A debt budget helps you to eliminate debt.</p>
-    <p>(ex. "Subaru Car Payment", "Student Loans")</p>
-  </div>
-
 </div>
 
 {% endblock content %}

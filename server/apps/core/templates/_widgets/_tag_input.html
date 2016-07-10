@@ -1,0 +1,71 @@
+{% load staticfiles %}
+
+<div class="normal-styles">
+  <div id="editor" class="tag-editor">
+    <input id="editor_input" type="text" class="tag-input" placeholder="Use enter key to add tags." />
+  </div>
+</div>
+<span class="hidden">{{ input }}</span>
+
+<script>
+
+  window.onload = function() {
+    document.getElementById("editor_input").onkeypress = handleInput;
+    document.getElementById("editor_input").onkeydown = handleKeyPress;
+  }
+
+  function handleInput(event) {
+    if (event.keyCode == 8 && event.target.value.length > 0) { // Delete key
+
+    }
+    if ((event.keyCode == 9 || event.keyCode == 13) && event.target.value.length > 0) { // Tab key
+      
+      var newTags = [];
+      event.preventDefault();
+      
+      if (newTags.indexOf(event.target.value) < 0) {
+        newTags.push(event.target.value);
+        buildTag(event.target.value, document.getElementById("editor"));
+        document.getElementById("{{ id }}").value += event.target.value + "|";
+        event.target.value = "";
+      }
+    }
+  };
+
+  function buildTag(value, parent) {
+    var newSpan = document.createElement('span');
+    var tagClose = document.createElement('i');
+    tagClose.addEventListener("click", removeTag, false);
+    
+    newSpan.innerHTML = value;
+    newSpan.dataset.name = value;
+    newSpan.className += "tag-styles";
+    parent.insertBefore(newSpan, document.getElementById("editor_input"));
+    tagClose.className += "fa fa-times tag-close";
+    newSpan.appendChild(tagClose);
+
+  };
+  
+  function removeTag(event) {
+    var tagInput = document.getElementById("{{ id }}");
+    var tags = tagInput.value.split("|");
+    var clickedTag = event.target.parentNode;
+    var index = tags.indexOf(clickedTag.dataset.name);
+    
+    if (index > -1) {
+      tags.splice(index, 1);
+      tagInput.value = tags.join("|");
+      disposeTag(clickedTag);
+    }
+  };
+  
+  function disposeTag(element) {
+    element.removeEventListener("click", removeTag);
+    element.parentNode.removeChild(element);
+  };
+
+  function handleKeyPress(event) { };
+
+
+</script>
+

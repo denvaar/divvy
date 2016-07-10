@@ -21,36 +21,4 @@
   </form>
 </div>
 
-<script>
-    window.onload = getFormGroup;
-
-    function upTo(el, tagName) {
-      tagName = tagName.toLowerCase();
-
-      while (el && el.parentNode) {
-        el = el.parentNode;
-        if (el.tagName && el.tagName.toLowerCase() == tagName) {
-          return el;
-        }
-      }
-      return null;
-    }
-
-    function getFormGroup() {
-      var selectedGroup = document.getElementById('id_group_select').value;
-      var opts = Array.apply(null, document.getElementById('id_group_select').options);
-      
-      var groups = document.querySelectorAll('[data-groupid]');
-      groups.forEach(function(element) {
-        if (element.dataset.groupid === `group_${selectedGroup}`) {
-          upTo(element, 'DIV').classList.remove('hidden');
-        } else {
-          upTo(element, 'DIV').classList.add('hidden');
-        }
-      });
-    }
-
-
-</script>
-
 {% endblock content %}

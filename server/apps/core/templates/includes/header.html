@@ -3,7 +3,11 @@
     <li class="logo">Divvy</li>
     {% if request.user.is_authenticated %}
     <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
-    <li class="user">{{ request.user.get_full_name }} <a href="{% url 'accounts:logout' %}">Logout</a></li>
+    <li class="user">
+      <a href="{% url 'accounts:logout' %}">
+        <i class="fa fa-caret-down" aria-hidden="true"></i> {{ request.user.get_full_name }}
+      </a>
+    </li>
     {% endif %}
   </ul>
 </nav>

@@ -38,12 +38,13 @@
   <h3 style="display:inline-block">Budgets</h3>
   <span>
     <a href="{% url 'budgets:budget-select' %}"><i class="fa fa-plus text-color-green" aria-hidden="true"></i></a>
-  </span>
+  </span><br/>
   {% for budget in budgets %}
-    <div>
-      <a href="">{{ budget.title }}</a>
+    <div class="budget-display">
+      <a href=""><i class="fa fa-cube" style="font-size: 4em;" aria-hidden="true"></i>{{ budget.title }}</a>
     </div>
   {% endfor %}
+
   <hr>
   {% if transactions %}
       <h3 style="display:inline-block">Latest Transactions</h3>

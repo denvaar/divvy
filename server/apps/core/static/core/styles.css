@@ -7,7 +7,10 @@ html {
   background: #fff;
 }
 
-hr { border-style: solid; }
+hr { 
+  border-style: solid;
+  color: #e6e6e6;
+}
 
 a {
   color: #2f86cc;
@@ -134,7 +137,7 @@ a:hover {
 }
 .table-minimal th {
   padding: 10px 8px;
-  border-bottom: 2px solid #388bce;
+  border-bottom: 2px solid #ffc671;
 }
 .table-minimal td {
   padding: 9px 8px 0px 8px;
@@ -184,7 +187,12 @@ form .action-group {
    justify-content: center;
 }
 
-
+.budget-display {
+  display: inline-flex;
+  margin: 5px;
+  flex-direction: column;
+  min-width: 150px;
+}
 
 .card {
   /**

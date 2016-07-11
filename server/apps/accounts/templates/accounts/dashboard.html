@@ -3,23 +3,55 @@
 
 {% block content %}
 <div class="content">
-  <h1 {% if total_balance > -1 %}class="text-color-green"{% else %}class="text-color-red"{% endif %}>{{ total_balance|as_currency }}</h1>
-  <h3>Accounts</h3>
-  {% for account in request.user.accounts.all %}
+  <h3 style="display:inline-block">Accounts</h3>
+  <span>
+    <a href="{% url 'accounts:account-add' %}">
+      <i class="fa fa-plus text-color-green" aria-hidden="true"></i>
+    </a>
+  </span>
+  <div class="table-container">
     <div>
-      <a href="">{{ account.name }}</a>
+      <table class="table-minimal">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        {% for account in request.user.accounts.all %}
+            <tr>
+              <td>{{ account.name }}</td>
+              <td>{{ account.balance|as_currency }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+          <td><a href="">see more</a></td>
+        </tr>
+      </table>
     </div>
-  {% endfor %}
+    <div class="right-side">
+      <h3>Total Balance:</h3>
+      <h1 {% if total_balance > -1 %}class="text-color-green"{% else %}class="text-color-red"{% endif %}>{{ total_balance|as_currency }}</h1>
+    </div>
+  </div>
   <hr>
-  <h3>Budgets</h3>
+  <h3 style="display:inline-block">Budgets</h3>
+  <span>
+    <a href="{% url 'budgets:budget-select' %}"><i class="fa fa-plus text-color-green" aria-hidden="true"></i></a>
+  </span>
   {% for budget in budgets %}
     <div>
       <a href="">{{ budget.title }}</a>
     </div>
   {% endfor %}
-    {% if transactions %}
-        <h3 style="display:inline-block">Latest Transactions</h3>&nbsp;<a href="">view more</a>
-        <table>
+  <hr>
+  {% if transactions %}
+      <h3 style="display:inline-block">Latest Transactions</h3>
+      <span>
+        <a href="{% url 'budgets:transaction-add' %}"><i class="fa fa-plus text-color-green" aria-hidden="true"></i></a>
+      </span>
+      <table class="table-minimal">
+        <thead>
           <tr>
             <th>Date</th>
             <th>Name</th>
@@ -28,26 +60,29 @@
             <th>Account</th>
             <th>Budget</th>
           </tr>
-          {% for transaction in transactions %}
-          {% with amount=transaction.amount|abso %}
-          <tr>
-            <td>{{ transaction.created }}</td>
-            <td>{{ transaction.name }}</td>
-            <td>{% if transaction.transaction_type == 'debit' %}{{ amount|as_currency }}{% else %}&nbsp;{% endif %}</td>
-            <td>{% if transaction.transaction_type == 'credit' %}{{ amount|as_currency }}{% else %}&nbsp;{% endif %}</td>
-            <td>{{ transaction.account }}</td>
-            <td>{{ transaction.budget|default_if_none:"--" }}</td>
-          </tr>
-          {% endwith %}
-          {% endfor %}
-        </table>
-    {% else %}
-        <h3>Latest Transactions</h3>
-        <span>No transactions yet.</span>
-    {% endif %}
-  <hr>
-  <a href="{% url 'budgets:transaction-add' %}">Record a transaction</a>
-  <a href="{% url 'budgets:budget-select' %}">New Budget</a>
-  <a href="{% url 'accounts:account-add' %}">Add Account</a>
+        </thead>
+        {% for transaction in transactions %}
+        {% with amount=transaction.amount|abso %}
+        <tr>
+          <td>{{ transaction.created }}</td>
+          <td>{{ transaction.name }}</td>
+          <td>{% if transaction.transaction_type == 'debit' %}{{ amount|as_currency }}{% else %}&nbsp;{% endif %}</td>
+          <td>{% if transaction.transaction_type == 'credit' %}{{ amount|as_currency }}{% else %}&nbsp;{% endif %}</td>
+          <td>{{ transaction.account }}</td>
+          <td>{{ transaction.budget|default_if_none:"--" }}</td>
+        </tr>
+        {% endwith %}
+        {% endfor %}
+        <tr>
+          <td><a href="">see more</a></td>
+        </tr>
+      </table>
+  {% else %}
+      <h3>Latest Transactions</h3>
+      <span>
+        <a href=""><i class="fa fa-plus text-color-green" aria-hidden="true"></i></a>
+      </span>
+      <span>No transactions yet.</span><i class="fa fa-plus text-color-green" aria-hidden="true"></i>
+  {% endif %}
 </div>
 {% endblock content %}

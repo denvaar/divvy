@@ -7,6 +7,8 @@ html {
   background: #fff;
 }
 
+hr { border-style: solid; }
+
 a {
   color: #2f86cc;
   text-decoration: none;
@@ -53,7 +55,7 @@ a:hover {
 
 
 .content {
-  margin: 12px;
+  margin: 25px;
 }
 
 .success {
@@ -114,6 +116,30 @@ a:hover {
 .text-color-red {
   color: #ce4e4e;
 }
+
+
+.table-container>div {
+  margin: 3px;
+  vertical-align: middle;
+  display: table-cell;
+}
+.table-container .right-side {
+  padding-left: 50px;
+}
+
+.table-minimal {
+  margin: 10px;
+  text-align: left;
+  border-collapse: collapse;
+}
+.table-minimal th {
+  padding: 10px 8px;
+  border-bottom: 2px solid #388bce;
+}
+.table-minimal td {
+  padding: 9px 8px 0px 8px;
+}
+
 
 form .action-group {
   margin: 10px 0 0;

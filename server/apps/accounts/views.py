@@ -49,8 +49,8 @@ class DashboardView(SuccessMessageMixin, TemplateView):
         transactions = Transaction.objects.filter(
             account__app_users=self.request.user).order_by('-created')
         context['transactions'] = transactions
-        #context['budgets'] = Budget.objects.filter(
-        #    pk__in=transactions.values_list('budget', flat=True))
+        context['budgets'] = Budget.objects.filter(
+            user=self.request.user)
         context['total_balance'] = 0.0
         for account in self.request.user.accounts.all():
             context['total_balance'] += float(account.balance)

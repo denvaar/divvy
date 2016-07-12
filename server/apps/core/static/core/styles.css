@@ -192,6 +192,30 @@ form .action-group {
   margin: 5px;
   flex-direction: column;
   min-width: 150px;
+  align-items: center;
+}
+.budget-icon {
+  display: flex;
+  display: -webkit-flex;
+}
+.budget-info {
+  display: flex;
+  display: -webkit-flex;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.dropdown-button {
+  cursor: pointer;
+  color: #2f86cc;
 }
 
 .card {

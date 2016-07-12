@@ -3,9 +3,6 @@ from django import forms
 
 from .models import (
     Budget, 
-    SavingsBudget,
-    ExpenseBudget,
-    DebtBudget,
     Transaction,
     Tag
 )
@@ -32,9 +29,6 @@ class TransactionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Budget)
-admin.site.register(SavingsBudget)
-admin.site.register(ExpenseBudget)
-admin.site.register(DebtBudget)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Tag)
 

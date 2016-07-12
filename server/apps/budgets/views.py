@@ -7,9 +7,6 @@ from django.http import HttpResponseRedirect
 from .models import (
     Transaction,
     Budget,
-    ExpenseBudget,
-    SavingsBudget,
-    DebtBudget
 )
 
 from .forms import TransactionDetailForm, get_budget_form
@@ -44,7 +41,6 @@ class BudgetSelectView(TemplateView):
 
 class BudgetAddView(CreateView):
     template_name = 'budgets/budget_add.html'
-    #model = SavingsBudget
 
     def get_form_class(self):
         budget_type = self.kwargs.get('type', None)

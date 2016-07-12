@@ -9,9 +9,6 @@ from apps.core.fields import TagField
 from .models import (
     Transaction,
     Budget,
-    ExpenseBudget,
-    SavingsBudget,
-    DebtBudget,
     Tag
 )
 
@@ -50,17 +47,29 @@ class TransactionDetailForm(forms.ModelForm):
 
 def get_budget_form(budget_type):
     
-    budgets = {
-        'savings': SavingsBudget,
-        'expense': ExpenseBudget,
-        'debt': DebtBudget
+    _fields = {
+        'savings': [],
+        'expense': [],
+        'debt': []
     }
-
+    
     class BudgetForm(forms.ModelForm):
 
         class Meta:
-            model = budgets[budget_type]
-            exclude = []
+            model = Budget
+            exclude = ['user', 'budget_type']
+
+        def __init__(self, *args, **kwargs):
+            self.user = kwargs.pop('user', None)
+            super(BudgetForm, self).__init__(*args, **kwargs)
+
+        def save(self):
+            obj = super(BudgetForm, self).save(commit=False)
+            obj.user = self.user
+            obj.budget_type = budget_type
+            obj.save()
+            self.save_m2m()
+            return obj
 
     return BudgetForm
 

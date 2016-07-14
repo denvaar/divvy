@@ -44,7 +44,7 @@ class BudgetAddView(CreateView):
 
     def get_form_class(self):
         budget_type = self.kwargs.get('type', None)
-        return get_budget_form(budget_type)
+        return get_budget_form(budget_type, self.request.user)
 
     def get_success_url(self):
         return reverse('accounts:dashboard')

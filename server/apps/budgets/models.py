@@ -37,6 +37,8 @@ class Budget(models.Model):
     payment_amount = models.DecimalField(max_digits=14, decimal_places=2,
                                          blank=True, null=True)
     created = models.DateTimeField(default=timezone.now) 
+    icon_color = models.CharField(max_length=254, default="#4b4d4c")
+    icon = models.TextField(default="<i class='fa fa-cube' aria-hidden='true'></i>")
 
     def __str__(self):
         return self.title

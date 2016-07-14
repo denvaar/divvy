@@ -20,7 +20,6 @@ class TransactionDetailForm(forms.ModelForm):
                 'class':'tag-input'
             }))
 
-
     class Meta:
         model = Transaction
         exclude = ['tags']
@@ -45,27 +44,36 @@ class TransactionDetailForm(forms.ModelForm):
         return obj 
 
 
-def get_budget_form(budget_type):
+def get_budget_form(budget_type, user):
     
     _fields = {
-        'savings': [],
-        'expense': [],
-        'debt': []
+        'savings': ['title','goal','goal_date','amount'],
+        'expense': ['title','goal','goal_date','period'],
+        'debt': ['title','goal','payment_amount','goal_date','period'],
+    }
+    _fields[budget_type].extend(['icon','icon_color'])
+    
+    _labels = {
+        'savings': ['Label','Goal amount','Goal date','Current amount saved'],
+        'expense': ['Label','Expense amount','Due date','Period'],
+        'debt': ['Label','Total amount owed','Payment amount','Payment due date','Payment interval'],
     }
     
     class BudgetForm(forms.ModelForm):
 
         class Meta:
             model = Budget
-            exclude = ['user', 'budget_type']
+            fields = _fields[budget_type]
 
         def __init__(self, *args, **kwargs):
-            self.user = kwargs.pop('user', None)
             super(BudgetForm, self).__init__(*args, **kwargs)
+            for field in zip(_fields[budget_type], _labels[budget_type]):
+                self.fields[field[0]].label = field[1]
+                
 
         def save(self):
             obj = super(BudgetForm, self).save(commit=False)
-            obj.user = self.user
+            obj.user = user
             obj.budget_type = budget_type
             obj.save()
             self.save_m2m()

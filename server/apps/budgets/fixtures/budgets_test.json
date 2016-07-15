@@ -1,0 +1,35 @@
+[
+{
+  "model": "accounts.account",
+  "pk": 1,
+  "fields": {
+    "name": "test_account_1",
+    "created": "2015-12-22T15:00:00-06:00",
+    "balance": 9000
+  }
+},
+{
+  "model": "accounts.baseuser",
+  "pk": 1,
+  "fields": {
+    "password": "test12345",
+    "last_login": "2015-12-22T15:00:00-06:00",
+    "is_superuser": true,
+    "email": "tester@divvy.com",
+    "first_name": "Tester",
+    "last_name": "Testy",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2015-12-21T19:32:57-06:00",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.appuser",
+  "pk": 1,
+  "fields": {
+    "accounts": [1]
+  }
+}
+]

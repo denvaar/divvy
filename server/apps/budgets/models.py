@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.db.models.signals import post_delete
+from django.core.exceptions import ValidationError
 
 
 class Budget(models.Model):
@@ -65,8 +66,17 @@ class Transaction(models.Model):
         return "[ {2} ] {0}  {1}".format(self.name,
             self.description, self.amount)
 
+    def clean(self):
+        if not self.transaction_type in [i[0] for i in self.TYPES]:
+            raise ValidationError(
+                {'transaction_type': 'Invalid transaction type {}'.format(
+                    self.transaction_type)})
+
     def save(self, *args, **kwargs):
-        self.account.balance = self.account.balance + self.amount
+        if self.transaction_type == 'debit':
+            self.account.balance = self.account.balance - self.amount
+        elif self.transaction_type == 'credit':
+            self.account.balance = self.account.balance + self.amount
         self.account.save()
         super(Transaction, self).save(*args, **kwargs)
 

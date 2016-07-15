@@ -22,22 +22,21 @@ class TransactionDetailForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        exclude = ['tags']
+        fields = [
+            'name',
+            'amount',
+            'transaction_type',
+            'created',
+            'description',
+            'account',
+            'budget',
+            'tags']
 
     def clean(self):
         cleaned_data = super(TransactionDetailForm, self).clean()
-        amount = cleaned_data.get('amount')
-        transaction_type = cleaned_data.get('transaction_type')
-        if (transaction_type == 'credit' and amount <= 0) or \
-           (transaction_type == 'debit' and amount >= 0): 
-            raise forms.ValidationError(
-                    "Invalid amount for transaction type."
-                    " Use negative amount for debits and "
-                    "positive amount for credits.")
 
     def save(self):
         obj = super(TransactionDetailForm, self).save(commit=False)
-        print(self.cleaned_data)
         obj.save()
         [obj.tags.add(t) for t in self.cleaned_data.get('tags')]
         self.save_m2m()

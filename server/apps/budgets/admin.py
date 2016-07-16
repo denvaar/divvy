@@ -4,7 +4,8 @@ from django import forms
 from .models import (
     Budget, 
     Transaction,
-    Tag
+    Tag,
+    BudgetThroughModel
 )
 
 
@@ -29,6 +30,7 @@ class TransactionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Budget)
+admin.site.register(BudgetThroughModel)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Tag)
 

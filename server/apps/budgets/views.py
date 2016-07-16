@@ -49,3 +49,20 @@ class BudgetAddView(CreateView):
     def get_success_url(self):
         return reverse('accounts:dashboard')
 
+
+class TransactionDragDropView(TemplateView):
+    template_name = 'budgets/drag_and_drop.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TransactionDragDropView, self).get_context_data(**kwargs)
+        context['budgets'] = Budget.objects.filter(user=self.request.user)
+        t = []
+        transactions = Transaction.objects.filter(
+                account__app_users=self.request.user).order_by('-created')
+        for transaction in transactions:
+            if not transaction.is_budgeted_for():
+                t.append(transaction)
+        print(t)
+        context['transactions'] = t
+        return context
+

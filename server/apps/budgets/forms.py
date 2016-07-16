@@ -29,7 +29,6 @@ class TransactionDetailForm(forms.ModelForm):
             'created',
             'description',
             'account',
-            'budget',
             'tags']
 
     def clean(self):

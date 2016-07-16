@@ -59,8 +59,8 @@ class Transaction(models.Model):
     created = models.DateTimeField(default=timezone.now)
     tags = models.ManyToManyField('Tag', blank=True)
     account = models.ForeignKey('accounts.Account', related_name='transactions')
-    budget = models.ForeignKey('budgets.Budget', blank=True, null=True,
-                               related_name='transactions')
+    budgets = models.ManyToManyField('budgets.Budget', blank=True,
+                                     through='budgets.BudgetThroughModel')
 
     def __str__(self):
         return "[ {2} ] {0}  {1}".format(self.name,
@@ -80,6 +80,17 @@ class Transaction(models.Model):
         self.account.save()
         super(Transaction, self).save(*args, **kwargs)
 
+    def get_unbudgeted_amount(self):
+        total = sum(
+            [i.amount for i in self.budget_through_models.all()]
+        )
+        return self.amount - total
+
+    def is_budgeted_for(self):
+        if self.get_unbudgeted_amount() > 0:
+            return False
+        return True
+
 
 def update_account(sender, instance, **kwargs):
     instance.account.balance = instance.account.balance - instance.amount
@@ -88,6 +99,29 @@ def update_account(sender, instance, **kwargs):
 post_delete.connect(update_account, sender=Transaction,
                     dispatch_uid='update_account')
 
+
+class BudgetThroughModel(models.Model):
+    """
+    To allow portions of different transactions to go to
+    different budgets.
+    """
+    budget = models.ForeignKey('budgets.Budget',
+                               related_name='budget_through_models')
+    transaction = models.ForeignKey('budgets.Transaction',
+                                    related_name='budget_through_models')
+    amount = models.DecimalField(max_digits=14, decimal_places=2)
+    created = models.DateTimeField(default=timezone.now) 
+    
+    def __str__(self):
+        return "{} from '{}' to '{}'".format(self.amount,
+                                         self.transaction.name,
+                                         self.budget.title)
+
+    def clean(self):
+        if self.amount > transaction.amount:
+            raise ValidationError(
+                {'amount': 'This transaction does not have that much.'})
+    
 
 class Tag(models.Model):
     name = models.CharField(max_length=254)

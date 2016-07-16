@@ -56,6 +56,24 @@ a:hover {
 }
 
 
+.slider {
+  animation-duration: 0.5s;
+  animation-name: slideout;
+  overflow: hidden;
+}
+
+@keyframes slideout {
+  from {
+    margin-left: 0%;
+    width: 100%; 
+  }
+
+  to {
+    margin-left: 100%;
+    width: 300%;
+  }
+}
+
 
 .content {
   margin: 25px;
@@ -85,6 +103,10 @@ a:hover {
 }
 
 .errors {
+    background: #c1564e;
+    color: #ffbfba;
+    padding: 5px;
+    border-radius: 4px;
 }
 .errors .input {
   border: 1px solid rgba(231, 76, 60, 0.72) !important;
@@ -97,6 +119,19 @@ a:hover {
 }
 
 
+
+
+
+.side-by-side {
+  display: -webkit-flex;
+  display: flex;
+}
+.side-by-side > section {
+  padding: 30px;
+}
+.drag-drop-form-container {
+  text-align: center;
+}
 .child-elements { pointer-events: none; }
 .accept-drag { background: rgba(76, 175, 80, 0.22); }
 
@@ -157,17 +192,29 @@ form .action-group {
   justify-content: flex-end;
 }
 
+.overlay-white {
+    background-color: #fff;
+    pointer-events: none;
+    position:relative;
+    width: 100%;
+    height: 100%;
+    opacity: 0.20;
+    -moz-opacity: 20%;
+    -webkit-opacity: 20%;
+    z-index: 2;
+}
+
 .input-group {
   display: block;
   margin-top: 7px;
 }
 
 .input-group .input {
-  border: solid 1px #4b4d4c;
-  border-radius: 4px;
-  font-size: 15px;
-  width: 100%;
-  color: #4b4d4c;
+    padding-left: 5px;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    height: 30px;
+    font-size: 15px;
 }
 
 .input-group select {

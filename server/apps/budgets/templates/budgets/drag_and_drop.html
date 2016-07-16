@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load helpers %}
+
+{% block content %}
+{% csrf_token %}
+<div class="content">
+  <div id="drag-app" class="side-by-side">
+    <section style="min-width:50%">
+    <h3 style="display:inline-block">Uncategorized Transactions</h3>
+      <div>
+        {% if transactions %}
+            <table class="table-minimal" style="min-width: 100%">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Debit</th>
+                  <th>Credit</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for transaction in transactions %}
+                <tr id="transaction_id_{{ transaction.pk }}"
+                    data-transaction="{ &quot;id&quot;: {{ transaction.pk }}, &quot;amount&quot;: {{ transaction.get_unbudgeted_amount }} }"
+                    draggable="true",
+                    ondragstart="dragQueen(event)">
+                    <td>{{ transaction.created }}</td>
+                    <td>{{ transaction.name }}</td>
+                    <td>
+                      {% if transaction.transaction_type == 'debit' %}
+                        {% if transaction.get_unbudgeted_amount != transaction.amount %}
+                          {{ transaction.get_unbudgeted_amount|as_currency }}
+                          <div style="font-size: small">(of {{ transaction.amount|as_currency }})</div>
+                        {% else %}
+                          {{ transaction.amount|as_currency }}
+                        {% endif %}
+                      {% else %}
+                        &nbsp;
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if transaction.transaction_type == 'credit' %}
+                        {% if transaction.get_unbudgeted_amount != transaction.amount %}
+                          {{ transaction.get_unbudgeted_amount|as_currency }}
+                          <div style="font-size: small">(of {{ transaction.amount|as_currency }})</div>
+                        {% else %}
+                          {{ transaction.amount|as_currency }}
+                        {% endif %}
+                      {% else %}
+                        &nbsp;
+                      {% endif %}
+                    </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+        {% else %}
+            <p><i class="fa fa-check" aria-hidden="true"></i> You're all caught up.</p>
+        {% endif %}
+      </div>
+    </section>
+    
+    
+    <section>
+      <h3 style="display:inline-block">Budgets</h3>
+      <div>
+        {% for budget in budgets %}
+          <div ondragover="allowDrop(event)"
+               ondragenter="dragEnter(event)"
+               ondragleave="dragLeave(event)"
+               ondrop="drop(event, this)"
+               data-budget='{"id":{{ budget.pk }}, "label": "<span style=&quote;color:{{ budget.icon_color }};&quote;>{{ budget.icon }} {{ budget.title }}</span>"}'
+               class="budget-display">
+            <div class="budget-icon">
+              <span style="color:{{ budget.icon_color }};">{{ budget.icon|change_size:"fa-5x"|safe }}</span>
+            </div>
+            <div class="budget-info">
+              {{ budget.title }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+  
+  <hr/>
+  <br/>
+
+  <div id="confirm" class="drag-drop-form-container hidden">
+    <form id="confirm-form">
+      <div id="errors" class="errors hidden"></div>
+      <span class="input-group">
+        You've chosen to budget
+        <span style="position: relative; left: 16px;">
+          <i class="fa fa-usd" aria-hidden="true"></i>
+        </span>
+        <input class="input" style="padding-left: 20px;" type="text" name="amount"/>
+        <span id="budget-name-display"></span>
+      </span>
+      <div class="action-group">
+        <button onclick="cancelSubmit()" class="button" name="cancel">Cancel</button>
+        <button type="submit" class="button button-color-1">Confirm amount</button>
+      </div> 
+    </form>
+  </div>
+
+</div>
+
+<script>
+
+function dragQueen(event) {
+    var transactionObject = event.target.dataset.transaction;
+    event.dataTransfer.setData("transaction", transactionObject);
+}
+
+function allowDrop(event) {
+    event.preventDefault();
+}
+
+function dragEnter(event) {
+    event.target.classList.add('accept-drag');
+    Array.from(event.target.children).forEach((child) => {
+        child.classList.add('child-elements');
+    });
+}
+function dragLeave(event) {
+    event.target.classList.remove('accept-drag');
+    Array.from(event.target.children).forEach((child) => {
+        child.classList.remove('child-elements');
+    });
+}
+
+function drop(event, target) {
+  event.preventDefault();
+  document.getElementById("drag-app").classList.add('overlay-white');
+  event.target.classList.remove('accept-drag');
+  var transaction = JSON.parse(event.dataTransfer.getData("transaction"));
+  var draggedElement = document.getElementById(`transaction_id_${transaction.id}`);
+  // Example of removing the row of a td that was dragged.
+  //var rowElement = draggedElement.parentNode;
+  //rowElement.parentNode.removeChild(rowElement);
+  var budget = JSON.parse(target.dataset.budget);
+
+  displayConfirmationForm(transaction, budget); 
+}
+
+var added = false;
+
+function displayConfirmationForm(transaction, budget) {
+  var confirmBox = document.getElementById('confirm');
+  var confirmForm = document.getElementById('confirm-form');
+  var data = {
+    'budget': budget.id,
+    'transaction': transaction.id,
+    'amount': transaction.amount
+  };
+  confirmForm.dataset.data = JSON.stringify(data);
+  if (!added) {
+    confirmForm.addEventListener("submit", function() {
+      handleSubmit(event, data);
+    }, false);
+    added = true;
+  }
+  confirmForm.elements['amount'].value = transaction.amount;
+  document.getElementById('budget-name-display').innerHTML = `  to ${budget.label}.`;
+  confirmBox.classList.remove('hidden');
+}
+
+function handleSubmit(event, data) {
+  event.preventDefault();
+  data = JSON.parse(event.target.dataset.data);
+  var fullAmount = data.amount;
+  data.amount = event.target.amount.value;
+  var headers = {
+      'headers': {"X-CSRFToken": "{{ csrf_token }}"}
+  };
+  var url = "{% url 'budgets-rest:transaction-record' %}";
+  axios.post(url, data, headers).then((response) => {
+      document.getElementById("drag-app").classList.remove('overlay-white');
+      document.getElementById('confirm-form').reset();
+      document.getElementById('confirm').classList.add('hidden');
+      document.getElementById('errors').classList.add('hidden');
+      document.getElementById('errors').innerHTML = "";
+      // if amount submitted < amount
+      if (data.amount < fullAmount) {
+
+      } else {
+        var row = document.getElementById(`transaction_id_${data.transaction}`)
+        fadeOut(row);
+        //row.parentNode.removeChild(row);
+
+      }
+  }).catch((error) => {
+      document.getElementById('errors').innerHTML = error.response.data.amount;
+      document.getElementById('errors').classList.remove('hidden');
+  });
+
+}
+
+
+
+function fadeOut(el){
+  el.style.opacity = 1;
+
+  (function fade() {
+    if ((el.style.opacity -= .1) < 0) {
+      el.style.display = "none";
+    } else {
+      requestAnimationFrame(fade);
+    }
+  })();
+}
+
+
+function cancelSubmit() {
+  event.preventDefault();
+  document.getElementById("drag-app").classList.remove('overlay-white');
+  document.getElementById('confirm-form').reset();
+  document.getElementById('confirm').classList.add('hidden');
+  document.getElementById('errors').classList.add('hidden');
+  document.getElementById('errors').innerHTML = "";
+}
+
+</script>
+
+{% endblock content %}

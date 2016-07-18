@@ -9,8 +9,9 @@
     <section style="min-width:50%">
     <h3 style="display:inline-block">Uncategorized Transactions</h3>
       <div>
+        <p>Use drag and drop to categorize your transactions.</p>
         {% if transactions %}
-            <table class="table-minimal table-highlight" style="min-width: 100%">
+            <table id="trans-table" class="table-minimal table-highlight" style="min-width: 100%">
               <thead>
                 <tr>
                   <th>Date</th>
@@ -22,12 +23,12 @@
               <tbody>
               {% for transaction in transactions %}
                 <tr id="transaction_id_{{ transaction.pk }}"
-                    data-transaction="{ &quot;id&quot;: {{ transaction.pk }}, &quot;amount&quot;: {{ transaction.get_unbudgeted_amount }} }"
+                    data-transaction="{ &quot;id&quot;: {{ transaction.pk }}, &quot;amount&quot;: {{ transaction.get_unbudgeted_amount }}, &quot;amount_original&quot;: {{ transaction.amount }}, &quot;type&quot;: &quot;{{ transaction.transaction_type }}&quot; }"
                     draggable="true",
                     ondragstart="dragQueen(event)">
                     <td>{{ transaction.created }}</td>
                     <td>{{ transaction.name }}</td>
-                    <td>
+                    <td id="debit_{{ transaction.pk }}">
                       {% if transaction.transaction_type == 'debit' %}
                         {% if transaction.get_unbudgeted_amount != transaction.amount %}
                           {{ transaction.get_unbudgeted_amount|as_currency }}
@@ -39,7 +40,7 @@
                         &nbsp;
                       {% endif %}
                     </td>
-                    <td>
+                    <td id="credit_{{ transaction.pk }}">
                       {% if transaction.transaction_type == 'credit' %}
                         {% if transaction.get_unbudgeted_amount != transaction.amount %}
                           {{ transaction.get_unbudgeted_amount|as_currency }}
@@ -56,7 +57,7 @@
               </tbody>
             </table>
         {% else %}
-            <p><i class="fa fa-check" aria-hidden="true"></i> You're all caught up.</p>
+            <p class="large-message"><i class="fa fa-check text-color-green" aria-hidden="true"></i> You're all caught up.</p>
         {% endif %}
       </div>
     </section>
@@ -95,7 +96,7 @@
         <span style="position: relative; left: 16px;">
           <i class="fa fa-usd" aria-hidden="true"></i>
         </span>
-        <input class="input" style="padding-left: 20px;" type="text" name="amount"/>
+        <input class="input-inline" style="padding-left: 20px;" type="text" name="amount"/>
         <span id="budget-name-display"></span>
       </span>
       <div class="action-group">
@@ -108,13 +109,13 @@
 </div>
 
 <script>
-
 function dragQueen(event) {
     var transactionObject = event.target.dataset.transaction;
     event.dataTransfer.setData("transaction", transactionObject);
     var img = document.createElement("img");
     img.src = "{% static 'core/img/change.png' %}";
-    event.dataTransfer.setDragImage(img, 0, 0);
+    event.dataTransfer.setDragImage(img, 10, 10);
+    img.style.cursor = "pointer";
 }
 
 function allowDrop(event) {
@@ -135,14 +136,13 @@ function dragLeave(event) {
 }
 
 function drop(event, target) {
+  
   event.preventDefault();
   document.getElementById("drag-app").classList.add('overlay-white');
   event.target.classList.remove('accept-drag');
+  
   var transaction = JSON.parse(event.dataTransfer.getData("transaction"));
   var draggedElement = document.getElementById(`transaction_id_${transaction.id}`);
-  // Example of removing the row of a td that was dragged.
-  //var rowElement = draggedElement.parentNode;
-  //rowElement.parentNode.removeChild(rowElement);
   var budget = JSON.parse(target.dataset.budget);
 
   displayConfirmationForm(transaction, budget); 
@@ -151,13 +151,17 @@ function drop(event, target) {
 var added = false;
 
 function displayConfirmationForm(transaction, budget) {
+  
   var confirmBox = document.getElementById('confirm');
   var confirmForm = document.getElementById('confirm-form');
   var data = {
     'budget': budget.id,
     'transaction': transaction.id,
-    'amount': transaction.amount
+    'amount': transaction.amount,
+    'amount_original': transaction.amount_original,
+    'type': transaction.type
   };
+  
   confirmForm.dataset.data = JSON.stringify(data);
   if (!added) {
     confirmForm.addEventListener("submit", function() {
@@ -165,34 +169,58 @@ function displayConfirmationForm(transaction, budget) {
     }, false);
     added = true;
   }
+  
   confirmForm.elements['amount'].value = transaction.amount;
   document.getElementById('budget-name-display').innerHTML = `  to ${budget.label}.`;
   confirmBox.classList.remove('hidden');
 }
 
 function handleSubmit(event, data) {
+  
   event.preventDefault();
   data = JSON.parse(event.target.dataset.data);
   var fullAmount = data.amount;
+  var transactionType = data.type;
+  var originalAmount = data.amount_original;
+  delete data.type;
+  delete data.amount_original;
   data.amount = event.target.amount.value;
   var headers = {
       'headers': {"X-CSRFToken": "{{ csrf_token }}"}
   };
   var url = "{% url 'budgets-rest:transaction-record' %}";
+  
   axios.post(url, data, headers).then((response) => {
       document.getElementById("drag-app").classList.remove('overlay-white');
       document.getElementById('confirm-form').reset();
       document.getElementById('confirm').classList.add('hidden');
       document.getElementById('errors').classList.add('hidden');
       document.getElementById('errors').innerHTML = "";
-      // if amount submitted < amount
+      
       if (data.amount < fullAmount) {
-
-      } else {
+        var tdAmount = document.getElementById(`${transactionType}_${data.transaction}`);
+        var updatedAmount = fullAmount - data.amount;
+        updatedAmount = accounting.formatMoney(updatedAmount);
+        tdAmount.innerHTML = `${updatedAmount} <div style="font-size:small">(of $ ${accounting.formatMoney(originalAmount)})</div>`;
         var row = document.getElementById(`transaction_id_${data.transaction}`)
-        fadeOut(row);
-        //row.parentNode.removeChild(row);
-
+        var dataset = JSON.parse(row.dataset.transaction);
+        dataset.amount = accounting.unformat(updatedAmount);
+        row.dataset.transaction = JSON.stringify(dataset);
+        console.log(row.dataset.transaction, dataset);
+      } else {
+        //var row = document.getElementById(`transaction_id_${data.transaction}`)
+        var tbl = document.getElementById("trans-table");
+        var rows_remaining = tbl.getElementsByTagName("tr").length;
+        if (rows_remaining > 2) {
+          fadeOut(row);
+          row.parentNode.removeChild(row);
+        } else {
+          var txt = document.createElement('p');
+          txt.classList.add("large-message");
+          txt.innerHTML = "<i class='fa fa-check text-color-green' aria-hidden='true'></i> You're all caught up.";
+          tbl.parentNode.appendChild(txt);
+          tbl.parentNode.removeChild(tbl);
+        }
       }
   }).catch((error) => {
       document.getElementById('errors').innerHTML = error.response.data.amount;

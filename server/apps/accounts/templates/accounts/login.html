@@ -1,15 +1,59 @@
 {% extends "base.html" %}
 {% load form_tags %}
+{% load static %}
 
 {% block content %}
 <div class="centered-container">
-  <form name="loginForm" method="post">
-    {% csrf_token %}
-    {{ form|as_vertical_form }}
-    <div class="action-group">
-      <input type="submit" class="button" value="Login"/>
+  <div class="form-box-container">
+    <div class="title">Log in</div>
+    <div class="body">
+      <form name="loginForm" method="post">
+        {% csrf_token %}
+        {{ form|as_vertical_form }}
+        <div class="action-group">
+          <input type="submit" class="button button-color-1" value="Login"/>
+        </div>
+      </form>
     </div>
-  </form>
+    <div class="footer"><hr/><a href="" class="link">Need an account?</a></div>
+  </div>
+</div>
+<div class="intro-container-1">
+  <h2>How Divvy Works</h2>
+  <div class="intro-body">
+    <div class="section-overview">
+      <div class="feature">
+        <img style="width: 150px;height:150px" src="{% static 'core/img/placeholder.png' %}"</img>
+        <div>
+          <h3>Record transactions.</h3>
+          <p>Divvy can pull transaction data from your bank account. You can also choose to record transactions manually.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <img style="width: 150px;height:150px" src="{% static 'core/img/placeholder2.png' %}"</img>
+        <h3>Create and manage budgets.</h3>
+        <p>Create personalized budgets to track your expenses and categorize transactions. Use Divvy to create alerts and reminders.</p>
+      </div>
+      <div class="feature">
+        <img style="width: 150px;height:150px" src="{% static 'core/img/placeholder3.png' %}"</img>
+        <h3>Analyze your spending habits.</h3>
+        <p>Generate pretty graphs to visualize your data.</p>
+      </div>
+      <br/></br>
+    </div>
+  </div>
+</div>
+<div class="intro-container-2">
+  <h2>Personal Finance Made Easy</h2>
+</div>
+<div class="intro-container-3">
+  <br/>
+  <p><i class="fa fa-copyright" aria-hidden="true"></i> 2016 Denver Smith | 
+  <a class="link" href="">FAQ</a> |
+  <a class="link" href="">Contact</a> |
+  <a class="link" href="">Terms</a>
+  </p>
+  </br>
 </div>
 {% endblock content %}
 

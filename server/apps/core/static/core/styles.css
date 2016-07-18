@@ -27,11 +27,17 @@ a:hover {
 .main-nav {
   border-bottom: 4px solid #5eab7d;
   height: 50px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  background: #fff;
 }
 
 .main-nav ul {
   display: flex;
   list-style: none;
+  margin: 0;
 }
 
 .main-nav li {
@@ -51,7 +57,7 @@ a:hover {
   font-size: 37px;
   cursor: default;
   margin-top: 2px;
-  margin-left: -29px;
+  margin-left: 0px;
 }
 
 
@@ -76,8 +82,10 @@ a:hover {
 
 .table-highlight tbody tr:hover {
   background: rgba(255, 198, 113, 0.46);
-  cursor: url(./img/pointer-24.png), auto;
+  cursor: url(./img/open-hand.png), auto;
 }
+
+.dragging-cursor { cursor: url(./img/closed-hand.png), auto; }
 
 .content {
   margin: 25px;
@@ -123,8 +131,20 @@ a:hover {
 }
 
 
+.section-overview .feature {
+    width: 70%;
+    padding: 20px;
+    overflow: hidden;
+}
 
-
+.section-overview .feature:nth-child(even) img {
+    margin-right: 15px;
+    float: left;
+}
+.section-overview .feature:nth-child(odd) img {
+    margin-right: 15px;
+    float: right;
+}
 
 .side-by-side {
   display: -webkit-flex;
@@ -137,7 +157,14 @@ a:hover {
   text-align: center;
 }
 .child-elements { pointer-events: none; }
-.accept-drag { border: 4px solid rgb(99, 193, 103) !important; }
+.accept-drag { 
+  border: 2px solid rgb(99, 193, 103) !important;
+}
+
+.large-message {
+  font-size: 30px;
+  font-weight: 600;
+}
 
 .button {
   padding: 10px;
@@ -147,10 +174,13 @@ a:hover {
   border-radius: 4px;
   color: #4b4d4c;
   background-color: #f5f5f5;
+  min-width: 100px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .button-color-1 {
-  background-color: #66ca6a;
+  background-color: #f2a334;
   color: #fff;
   border: none;
 }
@@ -208,9 +238,86 @@ form .action-group {
     z-index: 2;
 }
 
+
+.form-box-container {
+  width: 320px;
+  padding-top: 35px;
+  padding-left: 35px;
+  padding-right: 35px;
+  background: #fff;
+  border-radius: 5px;
+}
+.form-box-container .title {
+  text-align: center;
+  font-size: 18px;
+  background: #5eab7d;
+  margin-top: -35px;
+  margin-left: -35px;
+  margin-right: -35px;
+  border-radius: 5px 5px 0 0;
+  padding: 10px;
+  color: #fff;
+
+}
+.form-box-container .body {
+  margin-top: 30px;
+  margin-bottom: 45px;
+}
+.form-box-container form {
+  width: 100%;
+}
+.form-box-container .footer {
+  text-align: end;
+  font-size: 13px;
+  margin-top: -35px;
+  margin-left: -35px;
+  margin-right: -35px;
+  border-radius: 0 0 5px 5px;
+  padding: 10px;
+  color: #fff;
+  /*background: #efeade;*/
+}
+
+.intro-container-1 {
+  margin-left: -8px;
+  margin-right: -8px;
+  padding-top: 50px;
+}
+.intro-container-1 h2 {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.intro-container-1 .intro-body {
+  padding-left: 150px;
+}
+
+.intro-container-2 {
+  height: 500px;
+  background: #5eab7d;
+  margin-left: -8px;
+  margin-right: -8px;
+  padding-top: 50px;
+}
+.intro-container-2 h2 {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.intro-container-3 {
+  margin-left: -8px;
+  margin-right: -8px;
+  margin-bottom: -8px;
+  text-align: center;
+  height: 70px;
+}
+
 .input-group {
   display: block;
   margin-top: 7px;
+}
+
+.input-group label {
+  display: block;
 }
 
 .input-group .input {
@@ -219,19 +326,40 @@ form .action-group {
     border-radius: 3px;
     height: 30px;
     font-size: 15px;
+    width: 100%;
+}
+
+.input-group .input-inline {
+    padding-left: 5px;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    height: 30px;
+    font-size: 15px;
+}
+
+.input-group textarea {
+    padding-left: 5px;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    height: 100px;
+    font-size: 15px;
 }
 
 .input-group select {
-  background: #FFF;
-  border: solid 1px #4b4d4c;
-  border-radius: 4px;
+  background: #fff;
+  border: solid 1px #ccc;
+  border-radius: 3px;
   font-size: 15px;
-  width: 100%;
-  color: #4b4d4c;
+  height: 35px;
 }
 
+
+
 .centered-container {
-   margin: 12px;
+   margin-left: -8px;
+   margin-right: -8px;
+   margin-top: -4px;
+   border-top: 4px solid #5eab7d;
    display: -webkit-flex;
    display: flex;
    -webkit-flex-direction: column;
@@ -240,6 +368,8 @@ form .action-group {
    align-items: center;
    -webkit-justify-content: center;
    justify-content: center;
+   background: #89c4f4;
+   height: 500px;
 }
 
 
@@ -279,7 +409,7 @@ form .action-group {
   display: inline-flex;
   padding: 5px;
   margin: 3px;
-  border: 1px solid #4b4d4c;
+  border: 1px solid #ccc;
   border-radius: 2px;
   flex-direction: column;
   min-width: 150px;
@@ -420,17 +550,16 @@ form .action-group {
   width: 100%;
 }
 .tag-editor {
-  border: 1px solid #6d6d6d;
-  border-radius: 4px;
-  padding-left: 2px;
-  padding-right: 2px;
-  height: 32px;
-  line-height: 2;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 500px;
-  display: table;
-  box-shadow: 0 1px 4px rgba(12,13,14,0.1) inset;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+    height: 30px;
+    line-height: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    display: table;
 }
 .normal-styles {
   /*font-family: Helvetica Neue, Helvetica, Arial, sans-serif;*/

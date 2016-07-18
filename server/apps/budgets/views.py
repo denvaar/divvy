@@ -62,7 +62,6 @@ class TransactionDragDropView(TemplateView):
         for transaction in transactions:
             if not transaction.is_budgeted_for():
                 t.append(transaction)
-        print(t)
         context['transactions'] = t
         return context
 

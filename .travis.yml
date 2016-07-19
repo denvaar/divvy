@@ -4,5 +4,5 @@ python:
 install:
   - pip install -r ./server/misc/requirements.txt
 script:
-  - python server/manage.py test server
+  - python ./server/manage.py test server
 

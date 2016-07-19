@@ -37,9 +37,19 @@
   </div>
   <hr>
   <h3 style="display:inline-block">Budgets</h3>
-  <span>
-    <a href="{% url 'budgets:budget-select' %}"><i class="fa fa-plus text-color-green" aria-hidden="true"></i></a>
-  </span><br/>
+  <br/>
+    
+    <a href="{% url 'budgets:budget-select' %}">
+    <div class="budget-display">
+      <div class="budget-icon">
+        <span>
+          <i class="fa fa-file-o fa-5x"></i>
+        </span>
+      </div>
+      <div class="budget-info">New Budget</div>
+    </div>
+    </a>
+
   {% for budget in budgets %}
     <div ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" ondrop="drop(event, this)" data-budget="{{ budget.pk }}" class="budget-display">
       <div class="budget-icon">

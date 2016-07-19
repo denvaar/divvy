@@ -4,6 +4,16 @@ from django.db.models.signals import post_delete
 from django.core.exceptions import ValidationError
 
 
+d = {
+    ('debit', 'savings'): 'subtract',
+    ('debit', 'expense'): 'add',
+    ('debit', 'debt'): 'add',
+    ('credit', 'savings'): 'add',
+    ('credit', 'expense'): 'subtract',
+    ('credit', 'debt'): 'subtract'
+}
+
+
 class Budget(models.Model):
     BUDGET_TYPES = (
         ('expense', 'Expense'),
@@ -121,6 +131,26 @@ class BudgetThroughModel(models.Model):
         if self.amount > transaction.amount:
             raise ValidationError(
                 {'amount': 'This transaction does not have that much.'})
+    
+    def save(self, *args, **kwargs):
+        if d[(self.transaction.transaction_type,
+              self.budget.budget_type)] == 'add':
+            self.budget.amount += self.amount
+        else:
+            self.budget.amount -= self.amount
+        self.budget.save()
+        super(BudgetThroughModel, self).save(*args, **kwargs)
+
+def update_budget(sender, instance, **kwargs):
+    if d[(instance.transaction.transaction_type,
+          instance.budget.budget_type)] == 'add':
+        instance.budget.amount = instance.budget.amount - instance.amount
+    else:
+        instance.budget.amount = instance.budget.amount + instance.amount
+    instance.budget.save()
+
+post_delete.connect(update_budget, sender=BudgetThroughModel,
+                    dispatch_uid='update_budget')
     
 
 class Tag(models.Model):

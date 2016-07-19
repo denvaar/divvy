@@ -8,5 +8,5 @@ services:
 env:
   - DIVVY_ENV=development_docker
 script:
-  - python server/manage.py test server
+  - python server/manage.py test apps
 

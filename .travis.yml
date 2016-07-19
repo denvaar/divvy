@@ -6,7 +6,8 @@ install:
 services:
   - docker
 env:
+  - DJANGO=1.9.7
   - DIVVY_ENV=development_docker
 script:
-  - python manage.py test apps
+  - python ./server/manage.py test apps
 

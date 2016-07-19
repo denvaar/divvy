@@ -197,18 +197,18 @@ function handleSubmit(event, data) {
       document.getElementById('errors').classList.add('hidden');
       document.getElementById('errors').innerHTML = "";
       
+      var row = document.getElementById(`transaction_id_${data.transaction}`)
+      
       if (data.amount < fullAmount) {
         var tdAmount = document.getElementById(`${transactionType}_${data.transaction}`);
         var updatedAmount = fullAmount - data.amount;
         updatedAmount = accounting.formatMoney(updatedAmount);
         tdAmount.innerHTML = `${updatedAmount} <div style="font-size:small">(of $ ${accounting.formatMoney(originalAmount)})</div>`;
-        var row = document.getElementById(`transaction_id_${data.transaction}`)
         var dataset = JSON.parse(row.dataset.transaction);
         dataset.amount = accounting.unformat(updatedAmount);
         row.dataset.transaction = JSON.stringify(dataset);
         console.log(row.dataset.transaction, dataset);
       } else {
-        //var row = document.getElementById(`transaction_id_${data.transaction}`)
         var tbl = document.getElementById("trans-table");
         var rows_remaining = tbl.getElementsByTagName("tr").length;
         if (rows_remaining > 2) {

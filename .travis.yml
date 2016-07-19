@@ -1,13 +1,15 @@
-language: python
-python:
-  - "3.5"
-install:
-  - pip install -r ./server/misc/requirements.txt
 services:
   - docker
-env:
-  - DJANGO=1.9.7
-  - DIVVY_ENV=development_docker
-script:
-  - python ./server/manage.py test apps
 
+env:
+  DOCKER_COMPOSE_VERSION: 1.5.2
+
+install:
+  - docker-compose build
+  - docker-compose up -d
+  - docker ps
+  - docker-compose ps
+  - docker-compose run web python manage.py migrate
+
+script:
+  - docker-compose run web python manage.py test apps

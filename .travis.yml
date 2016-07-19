@@ -12,4 +12,4 @@ install:
   - docker-compose run web python manage.py migrate
 
 script:
-  - docker-compose run web python manage.py test apps
+  - docker-compose run web python server/manage.py test apps

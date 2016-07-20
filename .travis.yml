@@ -1,0 +1,21 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.5.2
+
+web:
+  links:
+    -db
+
+install:
+  - docker-compose build
+  - docker-compose up -d
+  - docker ps
+  - docker-compose ps
+  - docker-compose run web python server/manage.py migrate
+
+script:
+  - docker-compose run web python server/manage.py test apps

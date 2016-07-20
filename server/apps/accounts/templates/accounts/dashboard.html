@@ -37,19 +37,33 @@
   </div>
   <hr>
   <h3 style="display:inline-block">Budgets</h3>
-  <span>
-    <a href="{% url 'budgets:budget-select' %}"><i class="fa fa-plus text-color-green" aria-hidden="true"></i></a>
-  </span><br/>
+  <br/>
+    
+    <a href="{% url 'budgets:budget-select' %}">
+    <div class="budget-display">
+      <div class="budget-icon">
+        <span>
+          <i class="fa fa-file-o fa-5x"></i>
+        </span>
+      </div>
+      <div class="budget-info">New Budget</div>
+    </div>
+    </a>
+
   {% for budget in budgets %}
-    <div ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)" ondrop="drop(event, this)" data-budget="{{ budget.pk }}" class="budget-display">
+    <a href="#" onclick="overlay({{ forloop.counter }})">
+    <div class="budget-display">
       <div class="budget-icon">
         <span style="color:{{ budget.icon_color }};">{{ budget.icon|change_size:"fa-5x"|safe }}</span>
       </div>
       <div class="budget-info">
-        <a href="#" onclick="overlay({{ forloop.counter }})">{{ budget.title }}</a>
+        <span style="color:{{ budget.icon_color }};">{{ budget.title }}</span>
       </div>
     </div>
-    <div class="overlay" style="background: {{ budget.icon_color }};" id="overlay-{{ forloop.counter }}">
+    </a>
+    
+    <div class="overlay" style="background: {{ budget.icon_color }};"
+         id="overlay-{{ forloop.counter }}">
       <div class="overlay--body">
         <a class="overlay--close" href='#' onclick='overlay({{ forloop.counter }})'><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></a>
         <h2 style="margin-bottom: 0;">{{ budget.title }}</h2>
@@ -118,57 +132,11 @@
 </div>
 
 <script>
+
 function overlay(id) {
     el = document.getElementById("overlay-" + id);
     //el.classList.toggle("hidden");
     el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
-}
-
-function dragQueen(event) {
-    console.log(event.target.dataset.transaction);
-    event.dataTransfer.setData("trans_id", event.target.dataset.transaction);
-}
-
-function allowDrop(event) {
-    event.preventDefault();
-}
-
-function dragEnter(event) {
-    event.target.classList.add('accept-drag');
-    Array.from(event.target.children).forEach((child) => {
-        child.classList.add('child-elements');
-    });
-}
-function dragLeave(event) {
-    event.target.classList.remove('accept-drag');
-    Array.from(event.target.children).forEach((child) => {
-        child.classList.remove('child-elements');
-    });
-}
-
-function drop(event, target) {
-    event.preventDefault();
-    event.target.classList.remove('accept-drag');
-    var transactionId = event.dataTransfer.getData("trans_id");
-    console.log(transactionId, target.dataset.budget);
-    var draggedElement = document.getElementById(`transaction_id_${transactionId}`);
-    console.log("dragged element:", draggedElement);
-    // Example of removing the row of a td that was dragged.
-    var rowElement = draggedElement.parentNode;
-    rowElement.parentNode.removeChild(rowElement);
-    var headers = {
-        'headers': {"X-CSRFToken": "{{ csrf_token }}"}
-    };
-    var data = {
-        "budget": parseInt(target.dataset.budget)
-    };
-    var url = "{% url 'budgets-rest:transaction-update' pk=0 %}";
-    url = url.slice(0, -1) + transactionId; 
-    axios.patch(url, data, headers).then((response) => {
-        console.log(response);
-    }).catch((error) => {
-        console.log(error);
-    });
 }
 
 </script>

@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
@@ -29,6 +30,16 @@ class TransactionAddView(SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(TransactionAddView, self).get_context_data(**kwargs)
         return context
+
+
+class TransactionListView(ListView):
+    model = Transaction
+    template_name = 'budgets/transaction_list.html'
+    context_object_name = 'transactions'
+
+    def get_queryset(self):
+        return Transaction.objects.filter(
+                account__app_users=self.request.user).order_by('-created')
 
 
 class BudgetSelectView(TemplateView):

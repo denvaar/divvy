@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load helpers %}
+
+{% block content %}
+<div class="content" style="margin-top: 100px;">  
+  <h1>Transactions for {{ request.user.first_name }}</h1>
+  <div class="transaction--container">
+    {% for transaction in transactions %}
+      <div class="transaction--card">
+        <div class="transaction--card stripe"></div>
+        <div class="body">
+          <span>{{ transaction.created }}</span>
+          <span>{{ transaction.name }}</span>
+          <span>{{ transaction.amount|as_currency }}</span>
+          <span>{{ transaction.get_transaction_type_display }}</span>
+          <span>--</span>
+        </div>
+        <div class="edit">
+          <a href=""><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

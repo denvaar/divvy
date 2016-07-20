@@ -579,3 +579,39 @@ form .action-group {
   color: #ffa08e;
 }
 
+.transaction--container {
+  width: 95%;
+}
+.transaction--card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  width: 100%;
+  height: 45px;
+  margin: 2px;
+}
+.transaction--card .stripe{
+  width: 7px;
+  float: left;
+  background: #48a199;
+  border: 1px solid #48a199;
+  margin-left: -1px;
+  margin-top: -1px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.transaction--card .body {
+  font-size: 11px;
+  color: #707070; 
+  margin-left: 13px;
+  margin-top: 10px;
+}
+.transaction--card .body > span {
+  padding: 8px;
+}
+.transaction--card .edit {
+  font-size: 20px;
+  float: right;
+  margin-right: 7px;
+}
+

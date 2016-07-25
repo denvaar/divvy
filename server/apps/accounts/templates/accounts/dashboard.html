@@ -4,15 +4,14 @@
 {% block content %}
 {% csrf_token %}
 <div class="content">
-
+  
+  <br/><br/>
 
   <div class="widget">
-    <div class="header">Financial Summary</div>
+    <div class="header">Expense Summary</div>
     <div id="chart" class="chart-container">
-
     </div>
   </div>
-
 
   <h3 style="display:inline-block">Accounts</h3>
   <span>
@@ -149,7 +148,7 @@ function overlay(id) {
 }
 
 
-var dataset = JSON.parse('{{ dataset|escapejs }}');
+    var dataset = JSON.parse('{{ dataset|escapejs }}');
 
     var pie=d3.layout.pie()
             .value(function(d){return d.amount})
@@ -161,7 +160,16 @@ var dataset = JSON.parse('{{ dataset|escapejs }}');
     var outerRadius=w/2;
     var innerRadius=100;
 
-    var color = d3.scale.category20();
+    var names = dataset.map(function(obj) {
+      return obj.name;
+    });
+    var colors = dataset.map(function(obj) {
+      return obj.color;
+    });
+
+    var color = d3.scale.ordinal()
+        .domain(names)
+        .range(colors);
 
     var arc=d3.svg.arc()
             .outerRadius(outerRadius)
@@ -184,7 +192,9 @@ var dataset = JSON.parse('{{ dataset|escapejs }}');
             .attr({
                 d:arc,
                 fill:function(d,i){
-                    return color(d.data.name);
+                    console.log(d, i);
+                    return d.data.color;
+                    //return color(d.data.name);
                 }
             });
 

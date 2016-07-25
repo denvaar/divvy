@@ -9,10 +9,10 @@ from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView, View
 from django.contrib.messages.views import SuccessMessageMixin
 
-from apps.budgets.models import Transaction
-from apps.budgets.models import Budget
-from apps.accounts.models import Account
+from apps.budgets.models import Transaction, Budget
+from apps.budgets.utils import get_summary_data
 
+from .models import Account
 from .forms import LoginForm, AccountDetailForm
 
 
@@ -58,22 +58,10 @@ class DashboardView(SuccessMessageMixin, TemplateView):
         context['total_balance'] = 0.0
         for account in self.request.user.accounts.all():
             context['total_balance'] += float(account.balance)
-        
-        data = []
-        for budget in self.request.user.budgets.values_list('title','pk'):
-            total = BudgetThroughModel.objects.filter(
-                    budget=budget[1]).annotate(amt=Sum('amount')).aggregate(Sum('amt'))
-            if total['amt__sum']:
-                data.append({
-                    'name': budget[0],
-                    'amount': float(total['amt__sum'])
-                })
-        data.append({
-            'name': "Uncategorized",
-            'amount': abs(context['total_balance'] - sum([i['amount'] for i in data]))
-        })
-        context['dataset'] = json.dumps(data)
+       
+        context['dataset'] = json.dumps(get_summary_data(self.request.user)) 
         return context
+
 
 class AccountAddView(SuccessMessageMixin, CreateView):
     template_name = 'accounts/account_add.html'

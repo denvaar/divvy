@@ -12,6 +12,7 @@
   <script src="https://npmcdn.com/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 
+  <title>Divvy - {% block page_title %}{% endblock page_title %}</title>
 </head>
 
 <body>
@@ -22,7 +23,11 @@
 
   {% block content %}
   {% endblock content %}
-
+ 
+  <script>
+    {% block extra_scripts %}
+    {% endblock extra_scripts %}
+  </script>
 </body>
 
 </html>

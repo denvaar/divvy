@@ -10,7 +10,7 @@ from django.views.generic.base import TemplateView, View
 from django.contrib.messages.views import SuccessMessageMixin
 
 from apps.budgets.models import Transaction, Budget
-from apps.budgets.utils import get_summary_data
+from apps.budgets.utils import get_summary_data, get_savings_data
 
 from .models import Account
 from .forms import LoginForm, AccountDetailForm
@@ -24,7 +24,7 @@ class LoginFormView(FormView):
         next_param = self.request.GET.get('next', None)
         if next_param:
             return next_param
-        return reverse_lazy('accounts:dashboard')
+        return reverse_lazy('accounts:accounts-overview')
 
     def form_valid(self, form):
         email = form.cleaned_data.get('email')
@@ -52,7 +52,16 @@ class AccountsOverview(TemplateView):
         context['total_balance'] = 0.0
         for account in self.request.user.accounts.all():
             context['total_balance'] += float(account.balance)
+        uncategorized_amt = context['total_balance'] 
+        budget_names = []  
+        for transaction in Transaction.objects.filter(
+                transaction_type='credit'):
+            #uncategorized_amt = float(transaction.amount)
+            for i in transaction.budget_through_models.all():
+                uncategorized_amt -= float(i.amount) 
+        context['uncat_balance'] = float(uncategorized_amt) 
         context['dataset'] = json.dumps(get_summary_data(self.request.user)) 
+        context['savings_dataset'] = json.dumps(get_savings_data(self.request.user)) 
         return context
 
 

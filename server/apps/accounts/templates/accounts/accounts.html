@@ -9,6 +9,7 @@
     <h2 class="centered-text">Accounts</h2>
     <div class="table-container">
       <div>
+        <a href="">Add Account</a>
         <table class="table-minimal">
           <thead>
             <tr>
@@ -18,8 +19,9 @@
           </thead>
           {% for account in request.user.accounts.all %}
               <tr>
-                <td>{{ account.name }}</td>
-                <td>{{ account.balance|as_currency }}</td>
+                <td><a href="#">{{ account.name }}</a></td>
+                <td><a href="#">{{ account.balance|as_currency }}</a></td>
+                </a>
               </tr>
           {% endfor %}
         </table>
@@ -27,6 +29,8 @@
       <div class="right-side">
         <h3>Total Balance:</h3>
         <h1 {% if total_balance > -1 %}class="text-color-green"{% else %}class="text-color-red"{% endif %}>{{ total_balance|as_currency }}</h1>
+        <h3>Uncategorized Balance:</h3>
+        <h1 {% if uncat_balance > -1 %}class="text-color-green"{% else %}class="text-color-red"{% endif %}>{{ uncat_balance|as_currency }}</h1>
       </div>
     </div> 
   </div>

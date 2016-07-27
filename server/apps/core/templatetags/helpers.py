@@ -6,7 +6,7 @@ register = template.Library()
 
 @register.filter()
 def as_currency(value):
-    if value:
+    if value is not None:
         return '${:2,.2f}'.format(value)
     return ''
 

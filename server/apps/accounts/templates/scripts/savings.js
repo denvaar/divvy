@@ -1,6 +1,6 @@
 
-function doughnutChart() {
-    var dataset = JSON.parse('{{ dataset|escapejs }}');
+function doughnutChart(dataset) {
+    var dataset = JSON.parse(dataset);
 
     var pie=d3.layout.pie()
             .value(function(d){return d.amount})
@@ -122,5 +122,5 @@ function doughnutChart() {
 
     setTimeout(restOfTheData,1000);
 }
-doughnutChart();
+doughnutChart('{{ savings_dataset|escapejs }}');
 

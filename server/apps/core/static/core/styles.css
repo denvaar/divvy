@@ -83,7 +83,7 @@ a:hover {
   font-family: 'Pacifico', cursive;
   font-size: 37px;
   cursor: default;
-  margin-top: 2px;
+  margin-top: -2px;
   margin-left: 0px;
 }
 

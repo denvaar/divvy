@@ -44,6 +44,18 @@ class LogoutView(View):
         return redirect(reverse('accounts:login'))
 
 
+class AccountsOverview(TemplateView):
+    template_name = 'accounts/accounts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountsOverview, self).get_context_data(**kwargs)
+        context['total_balance'] = 0.0
+        for account in self.request.user.accounts.all():
+            context['total_balance'] += float(account.balance)
+        context['dataset'] = json.dumps(get_summary_data(self.request.user)) 
+        return context
+
+
 class DashboardView(SuccessMessageMixin, TemplateView):
     template_name = 'accounts/dashboard.html'
    

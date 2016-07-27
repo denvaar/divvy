@@ -6,7 +6,9 @@ register = template.Library()
 
 @register.filter()
 def as_currency(value):
-    return '${:2,.2f}'.format(value)
+    if value:
+        return '${:2,.2f}'.format(value)
+    return ''
 
 @register.filter()
 def abso(value):

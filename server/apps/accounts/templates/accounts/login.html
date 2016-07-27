@@ -1,8 +1,33 @@
-{% extends "base.html" %}
 {% load form_tags %}
 {% load static %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+</head>
+<body>
+<nav class="main-nav">
+  <ul>
+    <li class="logo">Divvy</li>
+    {% if request.user.is_authenticated %}
+    <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+    <li class="user dropdown">
+    
+      <div onclick="dropdown()" class="dropdown-button">
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
+        {{ request.user.get_full_name }}
+      </div>
+    
+      <div id="user_dropdown" class="dropdown-content hidden">
+        <a href="{% url 'accounts:logout' %}">Logout</a>
+      </div>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
 <div class="centered-container">
   <div class="first-blurb">
     <h1>Use Divvy to manage your finances and save for the future.</h1>
@@ -58,5 +83,5 @@
   </p>
   </br>
 </div>
-{% endblock content %}
-
+</body>
+</html>

@@ -1,23 +1,39 @@
-<nav class="main-nav">
+<!--<nav class="main-nav">
   <ul>
     <li class="logo">Divvy</li>
-    {% if request.user.is_authenticated %}
-    <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
     <li class="user dropdown">
-      
       <div onclick="dropdown()" class="dropdown-button">
         <i class="fa fa-caret-down" aria-hidden="true"></i>
         {{ request.user.get_full_name }}
       </div>
-      
       <div id="user_dropdown" class="dropdown-content hidden">
         <a href="{% url 'accounts:logout' %}">Logout</a>
       </div>
     </li>
-    {% endif %}
   </ul>
-</nav>
-
+</nav>-->
+<div class="first-nav">
+  <ul>
+    <li class="logo">Divvy</li>
+    <li class="user dropdown">
+      <div onclick="dropdown()" class="dropdown-button">
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
+        {{ request.user.get_full_name }}
+      </div>
+      <div id="user_dropdown" class="dropdown-content hidden">
+        <a href="{% url 'accounts:logout' %}">Logout</a>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="second-nav">
+  <ul>
+    <li><a href="#" class="current"><i class="fa fa-home" aria-hidden="true"></i> Accounts</a></li>
+    <li><a href="#"><i class="fa fa-book" aria-hidden="true"></i> Budgets</a></li>
+    <li><a href="#"><i class="fa fa-usd" aria-hidden="true"></i> Transactions</a></li>
+    <li><a href="#"><i class="fa fa-bar-chart" aria-hidden="true"></i> Analysis Tools</a></li>
+  </ul>
+</div>
 <script>
   function dropdown() {
     document.getElementById("user_dropdown").classList.toggle("hidden");

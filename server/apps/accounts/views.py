@@ -1,15 +1,14 @@
 import json
 
-from apps.budgets.models import BudgetThroughModel
 from django.db.models import Sum
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView, View
-from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 
-from apps.budgets.models import Transaction, Budget
+from apps.budgets.models import Transaction, Budget, BudgetThroughModel
 from apps.budgets.utils import get_summary_data, get_savings_data
 
 from .models import Account
@@ -65,7 +64,7 @@ class AccountsOverview(TemplateView):
         return context
 
 
-class DashboardView(SuccessMessageMixin, TemplateView):
+class DashboardView(TemplateView):
     template_name = 'accounts/dashboard.html'
    
     def get_context_data(self, **kwargs):
@@ -84,7 +83,7 @@ class DashboardView(SuccessMessageMixin, TemplateView):
         return context
 
 
-class AccountAddView(SuccessMessageMixin, CreateView):
+class AccountAddView(CreateView):
     template_name = 'accounts/account_add.html'
     model = Account
     form_class = AccountDetailForm
@@ -92,11 +91,11 @@ class AccountAddView(SuccessMessageMixin, CreateView):
 
     def post(self, *args, **kwargs):
         if 'cancel' in self.request.POST:
-            return HttpResponseRedirect(reverse('accounts:dashboard'))
+            return HttpResponseRedirect(reverse('accounts:accounts-overview'))
         return super(AccountAddView, self).post(*args, **kwargs)
 
     def get_success_url(self):
-        return reverse('accounts:dashboard')
+        return reverse('accounts:accounts-overview')
 
     def get_form_kwargs(self):
         kwargs = super(AccountAddView, self).get_form_kwargs()

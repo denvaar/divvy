@@ -12,7 +12,7 @@ class AccountDetailForm(forms.ModelForm):
 
     class Meta:
         model = Account
-        exclude = []
+        exclude = ['balance']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)

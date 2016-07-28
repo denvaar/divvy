@@ -9,7 +9,8 @@
     <h2 class="centered-text">Accounts</h2>
     <div class="table-container">
       <div>
-        <a href="">Add Account</a>
+        <button onclick="overlay()">Add Account</button>
+        {% include "accounts/account_add.html" %}
         <table class="table-minimal">
           <thead>
             <tr>
@@ -19,8 +20,8 @@
           </thead>
           {% for account in request.user.accounts.all %}
               <tr>
-                <td><a href="#">{{ account.name }}</a></td>
-                <td><a href="#">{{ account.balance|as_currency }}</a></td>
+                <td>{{ account.name }}</td>
+                <td>{{ account.balance|as_currency }}</td>
                 </a>
               </tr>
           {% endfor %}
@@ -56,6 +57,7 @@
 {% endblock content %}
 
 {% block extra_scripts %}
+  {% include "scripts/add_account.js" %}
   {% include "scripts/graph.js" %}
   {% include "scripts/savings.js" %}
 {% endblock extra_scripts %}

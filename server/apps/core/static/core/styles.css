@@ -157,8 +157,7 @@ a:hover {
 }
 
 .errors {
-    background: #c1564e;
-    color: #ffbfba;
+    color: #c1564e;
     padding: 5px;
     border-radius: 4px;
 }
@@ -246,7 +245,6 @@ a:hover {
 }
 
 .table-minimal {
-  margin: 10px;
   text-align: left;
   border-collapse: collapse;
 }
@@ -422,7 +420,7 @@ form .action-group {
      visibility: hidden;
      position: absolute;
      left: 0px;
-     top: 0px;
+     top: 108px;
      width:100%;
      height:100%;
      text-align:center;
@@ -443,7 +441,7 @@ form .action-group {
      margin: 100px auto;
      background-color: #fff;
      border-radius: 5px;
-     padding:15px;
+     padding:30px;
      position: relative;
      box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 }

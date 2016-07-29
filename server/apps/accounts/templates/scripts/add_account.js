@@ -5,6 +5,8 @@ function overlay() {
   el = document.getElementById("overlay");
   el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
   addAccountForm.reset();
+  document.getElementById('errors').innerHTML = "";
+  document.getElementById('errors').classList.toggle('hidden');
 }
 
 if (!created) {
@@ -29,10 +31,33 @@ function handleSubmit(event) {
     overlay()
     document.getElementById('errors').innerHTML = "";
     document.getElementById('errors').classList.add('hidden');
-  }).catch((error) => {
+    var table = document.getElementById("accountTable");
+    var row = table.insertRow();
+    var cellName = row.insertCell();
+    var cellBalance = row.insertCell();
+    cellName.innerHTML = data.name;
+    cellBalance.innerHTML = "$0.00";
+ }).catch((error) => {
     // deal with errors.
-    console.log(error.response);
-    document.getElementById('errors').innerHTML = 'Name: ' + error.response.data.name;
+    document.getElementById('errors').innerHTML = getErrorList(error.response.data);
     document.getElementById('errors').classList.remove('hidden');
   }); 
+}
+
+String.prototype.cap = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+function getErrorList(data) {
+  var errors = "";
+  for (var key in data) {
+    if (data.hasOwnProperty(key)) {
+      if (key === "non_field_errors") {
+        errors += `<p>${data[key]}</p>`;
+      } else {
+        errors += `<p>${key.cap()}: ${data[key]}</p>`;
+      }
+    }
+  }
+  return errors;
 }

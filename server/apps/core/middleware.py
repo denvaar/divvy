@@ -13,6 +13,7 @@ class UserTypeMiddleware(object):
             path = request.get_full_path()
             login_url = reverse('accounts:login')
             if (not request.path == login_url and
-                '/admin' not in path):
+                '/admin' not in path and
+                '/rest' not in path):
                 return redirect('%s?next=%s' % (login_url, request.path))
 

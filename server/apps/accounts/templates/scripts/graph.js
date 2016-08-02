@@ -1,5 +1,5 @@
 
-    var dataset = JSON.parse('{{ dataset|escapejs }}');
+    var dataset = JSON.parse('{{ expenses_dataset|escapejs }}');
 
     var pie=d3.layout.pie()
             .value(function(d){return d.amount})

@@ -1,7 +1,7 @@
 
-function doughnutChart(dataset) {
+function doughnutChart(dataset, chartId) {
     var dataset = JSON.parse(dataset);
-
+    
     var pie=d3.layout.pie()
             .value(function(d){return d.amount})
             .sort(null)
@@ -27,7 +27,7 @@ function doughnutChart(dataset) {
             .outerRadius(outerRadius)
             .innerRadius(innerRadius);
 
-    var svg=d3.select("#savings-chart")
+    var svg=d3.select(`#${chartId}`)
             .append("svg")
             .attr({
                 width:w,
@@ -44,7 +44,6 @@ function doughnutChart(dataset) {
             .attr({
                 d:arc,
                 fill:function(d,i){
-                    console.log(d, i);
                     return d.data.color;
                     //return color(d.data.name);
                 }
@@ -73,7 +72,7 @@ function doughnutChart(dataset) {
                 .attr("dy", ".4em")
                 .attr("text-anchor", "middle")
                 .text(function(d){
-                    return "$"+d.data.amount;
+                    return accounting.formatMoney(d.data.amount);
                 })
                 .style({
                     fill:'#fff',
@@ -122,5 +121,7 @@ function doughnutChart(dataset) {
 
     setTimeout(restOfTheData,1000);
 }
-doughnutChart('{{ savings_dataset|escapejs }}');
+
+doughnutChart('{{ savings_dataset|escapejs }}', 'savings-chart');
+doughnutChart('{{ expenses_dataset|escapejs }}', 'expense-chart');
 

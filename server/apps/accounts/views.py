@@ -9,7 +9,7 @@ from django.views.generic.base import TemplateView, View
 from django.http import HttpResponseRedirect
 
 from apps.budgets.models import Transaction, Budget, BudgetThroughModel
-from apps.budgets.utils import get_summary_data, get_savings_data
+from apps.budgets.utils import get_expenses_data, get_savings_data
 
 from .models import Account
 from .forms import LoginForm, AccountDetailForm
@@ -55,12 +55,14 @@ class AccountsOverview(TemplateView):
         budget_names = []  
         for transaction in Transaction.objects.filter(
                 transaction_type='credit'):
-            #uncategorized_amt = float(transaction.amount)
             for i in transaction.budget_through_models.all():
                 uncategorized_amt -= float(i.amount) 
-        context['uncat_balance'] = float(uncategorized_amt) 
-        context['dataset'] = json.dumps(get_summary_data(self.request.user)) 
-        context['savings_dataset'] = json.dumps(get_savings_data(self.request.user)) 
+        context['uncat_balance'] = float(uncategorized_amt)
+
+        context['expenses_dataset'] = json.dumps(get_expenses_data(
+                self.request.user)) 
+        context['savings_dataset'] = json.dumps(get_savings_data(
+                self.request.user, context['uncat_balance'])) 
         return context
 
 

@@ -1,7 +1,21 @@
 
 function doughnutChart(dataset, chartId) {
+    
+    var sumObj = function(items, prop) {
+      return items.reduce(function(a, b) {
+        return a + b[prop];
+      }, 0);
+    };
+    
     var dataset = JSON.parse(dataset);
     
+    if (sumObj(dataset, "amount") <= 0) {
+      document.getElementById(chartId).innerHTML = 
+        "<p style='text-align:center'>No transaction data.</p>";
+      return false;
+    }
+     
+
     var pie=d3.layout.pie()
             .value(function(d){return d.amount})
             .sort(null)

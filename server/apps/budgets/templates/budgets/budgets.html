@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load helpers %}
+{% load budget_helpers %}
+
+{% block page_title %}Budgets{% endblock page_title %}
+
+{% block content %}
+<div class="content" style="height: 600px;">
+ 
+  <a href="{% url 'budgets:budget-select' %}">New Budget</button>
+  {% for budget in budgets %}
+    
+    <a href="#" onclick="overlay({{ forloop.counter }})">
+    <div class="budget-display">
+      <div class="budget-icon">
+        <span style="color:{{ budget.icon_color }};">{{ budget.icon|change_size:"fa-5x"|safe }}</span>
+      </div>
+      <div class="budget-info">
+        <span style="color:{{ budget.icon_color }};">{{ budget.title }}</span>
+      </div>
+    </div>
+    </a>
+    
+    <div class="overlay" style="background: {{ budget.icon_color }};"
+         id="overlay-{{ forloop.counter }}">
+      <div class="overlay--body">
+        <a class="overlay--close" href='#' onclick='overlay({{ forloop.counter }})'><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></a>
+        <h2 style="margin-bottom: 0;">{{ budget.title }}</h2>
+        <p style="margin-top: 0;">{{ budget.get_budget_type_display }} budget</p>
+        <span style="color:{{ budget.icon_color }};">{{ budget.icon|change_size:"fa-5x"|safe }}</span>
+        <hr/>
+        <div class="overlay--detail">
+        <div style="text-align:center">{{ budget.amount|as_currency }} of {{ budget.goal|as_currency }} <i class="fa fa-exclamation-circle" aria-hidden="true"></i></div>
+        <div class="progress-container">
+          <span style="width:{{budget|as_percentage}}%;background-color:{{budget.icon_color}};"></span>
+        </div>
+        <p>Created: {{ budget.created }}</p>
+        <p>Goal date: {{ budget.goal_date }} ({{ budget.goal_date|time_diff }} days away)</p>
+        </div>
+        <a href='#'><i class="fa fa-pencil" aria-hidden="true"></i> edit</a>
+      </div>
+    </div>
+
+  {% endfor %}
+
+</div>
+{% endblock content %}
+
+{% block extra_scripts %}
+  {% include "scripts/budget_detail.js" %}
+{% endblock extra_scripts %}
+

@@ -65,6 +65,9 @@ class AccountsOverview(TemplateView):
                 self.request.user, context['uncat_balance'])) 
         return context
 
+    def get_current_page(self):
+        return 'accounts'
+
 
 class DashboardView(TemplateView):
     template_name = 'accounts/dashboard.html'

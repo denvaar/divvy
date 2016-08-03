@@ -13,6 +13,19 @@ from .models import (
 from .forms import TransactionDetailForm, get_budget_form
 
 
+class BudgetOverview(TemplateView):
+    template_name = 'budgets/budgets.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(BudgetOverview, self).get_context_data(**kwargs)
+        context['budgets'] = Budget.objects.filter(user=self.request.user)
+        return context
+
+    def get_current_page(self):
+        return 'budgets'
+    
+
+
 class TransactionAddView(SuccessMessageMixin, CreateView):
     template_name = 'budgets/transaction_add.html'
     model = Transaction

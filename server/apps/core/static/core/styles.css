@@ -654,12 +654,30 @@ form .action-group {
   margin-right: 7px;
 }
 
+.progress-container { 
+    height: 15px;  /* Can be anything */
+    position: relative;
+    background: #cdcdcd;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+.progress-container > span {
+  display: block;
+  height: 100%;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
 
 
 .widget {
     border-radius: 5px;
     box-shadow: 0px 0px 1px 0px #06060d;
-
+    height: 300px;
+    margin-top: 10px;
 }
 
 .widget-header{

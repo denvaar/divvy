@@ -28,8 +28,8 @@
 </div>
 <div class="second-nav">
   <ul>
-    <li><a href="{% url 'accounts:accounts-overview' %}" class="current"><i class="fa fa-university" aria-hidden="true"></i> Accounts</a></li>
-    <li><a href="#"><i class="fa fa-book" aria-hidden="true"></i> Budgets</a></li>
+    <li><a href="{% url 'accounts:accounts-overview' %}" class="{% if view.get_current_page == 'accounts' %}current{% endif %}"><i class="fa fa-university" aria-hidden="true"></i> Accounts</a></li>
+    <li><a href="{% url 'budgets:budget-overview' %}" class="{% if view.get_current_page == 'budgets' %}current{% endif %}"><i class="fa fa-book" aria-hidden="true"></i> Budgets</a></li>
     <li><a href="#"><i class="fa fa-usd" aria-hidden="true"></i> Transactions</a></li>
     <li><a href="#"><i class="fa fa-bar-chart" aria-hidden="true"></i> Analysis Tools</a></li>
   </ul>

@@ -48,7 +48,7 @@ class DataAttribSelect(Select):
         output.append('</select>')
         return mark_safe('\n'.join(output)) 
 
-    def render_option(self, selected_choices, option_value, option_label):
+    def render_option(self, selected_choices, option_value, option_label, extra):
         if option_value is None:
             option_value = ''
         option_value = force_text(option_value)
@@ -59,23 +59,25 @@ class DataAttribSelect(Select):
                 selected_choices.remove(option_value)
         else:
             selected_html = ''
-        if self.data_attribute and self.data_value:
-            return format_html('<option data-{}={} value="{}"{}>{}</option>',
-                    self.data_attribute, self.data_value,
-                    option_value, selected_html, force_text(option_label))
-        return format_html('<option value="{}"{}>{}</option>',
+        return format_html('<option data-{}={} value="{}"{}>{}</option>',
+                'color', extra,
                 option_value, selected_html, force_text(option_label))
+        #return format_html('<option value="{}"{}>{}</option>',
+        #        option_value, selected_html, force_text(option_label))
     
     def render_options(self, selected_choices):
         selected_choices = set(force_text(v) for v in selected_choices)
         output = []
-        print(self.choices)
-        for option_value, option_label, data_value in self.choices:
+        for option_value, option_label, other in self.choices:
             if isinstance(option_label, (list, tuple)):
                 output.append(format_html('<optgroup label="{}">', force_text(option_value)))
                 for option in option_label:
                     output.append(self.render_option(selected_choices, *option))
                 output.append('</optgroup>')
             else:
-                output.append(self.render_option(selected_choices, option_value, option_label))
+                output.append(self.render_option(selected_choices,
+                                                 option_value,
+                                                 option_label,
+                                                 other))
         return '\n'.join(output)
+

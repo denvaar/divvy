@@ -19,16 +19,31 @@ class TagField(CharField):
 
 from django.forms import models
 from django.forms.fields import ChoiceField
+
 class ExtraAttributeChoiceIterator(models.ModelChoiceIterator):
+    
+    def __iter__(self):
+        if self.field.empty_label is not None:
+            yield ("", self.field.empty_label, "")
+        queryset = self.queryset.all()
+        if not queryset._prefetch_related_lookups:
+            queryset = queryset.iterator()
+        for obj in queryset:
+            yield self.choice(obj)
+
     def choice(self, obj):
         return (self.field.prepare_value(obj),
-                self.field.label_from_instance(obj), obj.value or "#fff")
+                self.field.label_from_instance(obj),
+                obj.value)
 
 
 class DataAttribChoiceField(models.ModelChoiceField):
+    iterator = ExtraAttributeChoiceIterator
+
     def _get_choices(self):
         if hasattr(self, '_choices'):
             return self._choices
-        return ExtraAttributeChoiceIterator(self)
+        return self.iterator(self)
+
     choices = property(_get_choices, ChoiceField._set_choices)
 

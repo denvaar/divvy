@@ -1,5 +1,6 @@
-from .fields import TagField
+from .fields import TagField, DataAttribChoiceField
 
 __all__ = [
-    TagField
+    TagField,
+    DataAttribChoiceField
 ]

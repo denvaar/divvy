@@ -57,11 +57,21 @@ def get_budget_form(budget_type, user):
         'debt': ['Label','Total amount owed','Payment amount','Payment due date','Payment interval'],
     }
     
+    from apps.core.widgets import DataAttribSelect
+    from apps.core.fields import DataAttribChoiceField
+    from apps.budgets.models import Color
     class BudgetForm(forms.ModelForm):
+
+        icon_color = DataAttribChoiceField(queryset=Color.objects.all(),
+                                           widget=DataAttribSelect)
 
         class Meta:
             model = Budget
             fields = _fields[budget_type]
+            #widgets = {
+            #    'icon_color': DataAttribSelect(data_attribute='color',
+            #                                   data_value='value')
+            #}
 
         def __init__(self, *args, **kwargs):
             super(BudgetForm, self).__init__(*args, **kwargs)

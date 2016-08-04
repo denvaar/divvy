@@ -5,7 +5,8 @@ from .models import (
     Budget, 
     Transaction,
     Tag,
-    BudgetThroughModel
+    BudgetThroughModel,
+    Color
 )
 
 
@@ -33,4 +34,5 @@ admin.site.register(Budget)
 admin.site.register(BudgetThroughModel)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Tag)
+admin.site.register(Color)
 

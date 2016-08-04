@@ -47,12 +47,15 @@ class TransactionAddView(SuccessMessageMixin, CreateView):
 
 class TransactionListView(ListView):
     model = Transaction
-    template_name = 'budgets/transaction_list.html'
+    template_name = 'budgets/transactions.html'
     context_object_name = 'transactions'
 
     def get_queryset(self):
         return Transaction.objects.filter(
                 account__app_users=self.request.user).order_by('-created')
+    
+    def get_current_page(self):
+        return 'transactions'
 
 
 class BudgetSelectView(TemplateView):
@@ -71,7 +74,7 @@ class BudgetAddView(CreateView):
         return get_budget_form(budget_type, self.request.user)
 
     def get_success_url(self):
-        return reverse('accounts:dashboard')
+        return reverse('budgets:budget-overview')
 
 
 class TransactionDragDropView(TemplateView):

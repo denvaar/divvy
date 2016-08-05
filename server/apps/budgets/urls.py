@@ -15,11 +15,11 @@ urlpatterns = [
     
     url(r'^overview/?$', BudgetOverview.as_view(),
         name='budget-overview'),
+    url(r'^transaction/?$', TransactionListView.as_view(),
+        name='transaction-overview'),
     
     url(r'^transaction/add/?$', TransactionAddView.as_view(),
         name='transaction-add'),
-    url(r'^transaction/?$', TransactionListView.as_view(),
-        name='transactions'),
     url(r'^budget/select/?$', BudgetSelectView.as_view(),
         name='budget-select'),
     url(r'^budget/(?P<pk>\d+)/add/?$', TransactionAddView.as_view(),

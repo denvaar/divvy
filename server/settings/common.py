@@ -36,8 +36,8 @@ USE_I18N = True
 # calendars according to the current locale.
 USE_L10N = False
 
-DATETIME_FORMAT = "o-m-d"
-DATE_FORMAT = "o-m-d"
+DATETIME_FORMAT = "N d, o"
+DATE_FORMAT = "N d, o"
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'apps.core',
     'apps.budgets',
     'apps.accounts',
+
 )
 
 REST_FRAMEWORK = {

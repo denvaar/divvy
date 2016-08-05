@@ -1,6 +1,7 @@
-from .widgets import TagInput
+from .widgets import TagInput, DataModelSelect
 
 __all__ = [
-    TagInput
+    TagInput,
+    DataModelSelect
 ]
 

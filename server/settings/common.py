@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'apps.core',
     'apps.budgets',
     'apps.accounts',
+
 )
 
 REST_FRAMEWORK = {

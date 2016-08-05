@@ -22,18 +22,13 @@ class TagInput(TextInput):
         return mark_safe(render_to_string(self.template_name, context))
 
     def value_from_datadict(self, data, files, name):
-        print(data.get(name))
         return super(TagInput, self).value_from_datadict(data, files, name)
 
 
-class DataAttribSelect(Select):
-    """
-     an HTML select widget with data attributes on the options.
-    """
-    template_name = '_widgets/_data_attribute_select.html'
+class DataModelSelect(Select):
 
     def __init__(self, data_attribute=None, data_value=None, *args, **kwargs):
-        super(DataAttribSelect, self).__init__(*args, **kwargs)
+        super(DataModelSelect, self).__init__(*args, **kwargs)
         self.data_attribute = data_attribute
         self.data_value = data_value
 
@@ -48,7 +43,7 @@ class DataAttribSelect(Select):
         output.append('</select>')
         return mark_safe('\n'.join(output)) 
 
-    def render_option(self, selected_choices, option_value, option_label, extra):
+    def render_option(self, selected_choices, option_value, option_label, **extra):
         if option_value is None:
             option_value = ''
         option_value = force_text(option_value)
@@ -59,16 +54,18 @@ class DataAttribSelect(Select):
                 selected_choices.remove(option_value)
         else:
             selected_html = ''
-        return format_html('<option data-{}={} value="{}"{}>{}</option>',
-                'color', extra,
-                option_value, selected_html, force_text(option_label))
-        #return format_html('<option value="{}"{}>{}</option>',
-        #        option_value, selected_html, force_text(option_label))
+        
+        data_attrs = ''
+        for k,v in extra.items():
+            data_attrs += ' data-{}="{}"'.format(k,v)
+        return format_html('<option{} value="{}"{}>{}</option>',
+                format_html(data_attrs), option_value, selected_html,
+                force_text(option_label))
     
     def render_options(self, selected_choices):
         selected_choices = set(force_text(v) for v in selected_choices)
         output = []
-        for option_value, option_label, other in self.choices:
+        for option_value, option_label, data in [*self.choices]:
             if isinstance(option_label, (list, tuple)):
                 output.append(format_html('<optgroup label="{}">', force_text(option_value)))
                 for option in option_label:
@@ -78,6 +75,6 @@ class DataAttribSelect(Select):
                 output.append(self.render_option(selected_choices,
                                                  option_value,
                                                  option_label,
-                                                 other))
+                                                 **data))
         return '\n'.join(output)
 

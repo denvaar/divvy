@@ -23,7 +23,7 @@ class LoginFormView(FormView):
         next_param = self.request.GET.get('next', None)
         if next_param:
             return next_param
-        return reverse_lazy('accounts:accounts-overview')
+        return reverse('accounts:accounts-overview')
 
     def form_valid(self, form):
         email = form.cleaned_data.get('email')

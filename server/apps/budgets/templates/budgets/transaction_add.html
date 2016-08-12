@@ -9,7 +9,8 @@
       <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
       {% endfor %}
   </ul>
-  {% endif %} 
+  {% endif %}
+  {% if form.media %} {{ form.media.css }} {% endif %}
   <form method="POST">
     {% csrf_token %}
     {{ form|as_vertical_form }}

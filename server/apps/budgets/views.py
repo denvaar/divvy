@@ -69,6 +69,13 @@ class BudgetSelectView(TemplateView):
 class BudgetAddView(CreateView):
     template_name = 'budgets/budget_add.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(BudgetAddView, self).get_context_data(**kwargs)
+        context['form_title'] = 'New Budget'
+        context['form_submit_label'] = 'Create Budget'
+        context['back_url'] = reverse('budgets:budget-overview')
+        return context
+
     def get_form_class(self):
         budget_type = self.kwargs.get('type', None)
         return get_budget_form(budget_type, self.request.user)

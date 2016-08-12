@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django import forms
 
+from fancy_feast.forms.fields import TagField
+
 from .models import (
     Budget, 
     Transaction,
@@ -11,7 +13,9 @@ from .models import (
 
 
 class TransactionForm(forms.ModelForm):
-    
+
+    tags = TagField(model=Tag, field='name')
+
     class Meta:
         model = Transaction
         exclude = []
@@ -24,7 +28,13 @@ class TransactionForm(forms.ModelForm):
            (transaction_type == 'debit' and amount >= 0):
             raise forms.ValidationError(
                     "Invalid amount for transaction type.")
-
+    
+    def save(self, commit):
+        obj = super(TransactionForm, self).save(commit=False)
+        obj.save()
+        [obj.tags.add(t) for t in self.cleaned_data.get('tags')]
+        self.save_m2m()
+        return obj
 
 class TransactionAdmin(admin.ModelAdmin):
     form = TransactionForm

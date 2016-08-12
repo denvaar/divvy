@@ -95,7 +95,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
-                'django.core.context_processors.request',
+                'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
             ],
             'debug': DEBUG
@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     
     'rest_framework',
+    'fancy_feast',
 
     'apps.core',
     'apps.budgets',

@@ -8,6 +8,7 @@
 <div class="content" style="height: 600px;">
  
   <a href="{% url 'budgets:budget-select' %}">New Budget</button>
+  
   {% for budget in budgets %}
     
     <a href="#" onclick="overlay({{ forloop.counter }})">

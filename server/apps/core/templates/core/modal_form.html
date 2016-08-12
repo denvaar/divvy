@@ -1,0 +1,18 @@
+{% load form_tags %}
+<div id="modalFormContainer" class="modal-form" style="background:rgba(143, 143, 143, 0.62);">
+  <div class="modal-form--body">
+    <form id="accountCreate" method="post">
+      {% csrf_token %}
+      <a class="modal-form--close" href='{{ back_url }}'><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></a>
+      <h2 style="margin-bottom: 0;">{{ form_title }}</h2>
+      <h3 style="margin-top: 0;"><i class="fa fa-book" aria-hidden="true"></i></h3>
+      <div class="modal-form--detail">
+        {% if form.errors %}{{form.errors}}{% endif %}
+        {{ form|as_vertical_form }}
+      </div>
+      <br/>
+      <button type="submit" class="button button-color-1">{{ form_submit_label }}</button>
+    </form>
+  </div>
+</div>
+

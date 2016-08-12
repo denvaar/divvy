@@ -12,13 +12,12 @@ from .models import (
     Tag
 )
 
+from fancy_feast.forms.fields import TagField
+
 
 class TransactionDetailForm(forms.ModelForm):
         
-    tags = TagField(Tag, widget=TagInput(
-            attrs={
-                'class':'tag-input'
-            }))
+    tags = TagField(Tag, field='name')
 
     class Meta:
         model = Transaction

@@ -447,6 +447,36 @@ form .action-group {
 }
 
 
+.modal-form {
+  position: absolute;
+  left: 0;
+  top: 108px;
+  width:100%;
+  height:100%;
+  text-align:center;
+  z-index: 1000;
+  background: #66ab68;
+}
+.modal-form .modal-form--body {
+     width:370px;
+     margin: 30px auto;
+     background-color: #fff;
+     border-radius: 5px;
+     padding:30px;
+     position: relative;
+     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.modal-form .modal-form--detail {
+    text-align: left;
+}
+.modal-form .modal-form--close {
+    position: absolute;
+    top: 3px;
+    right: 4px;
+    color: #D64541;
+}
+
+
 
 .budget-display {
   display: inline-flex;

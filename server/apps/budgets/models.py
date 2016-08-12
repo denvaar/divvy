@@ -55,6 +55,13 @@ class Budget(models.Model):
         return self.title
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=254)
+    
+    def __str__(self):
+        return self.name
+
+
 class Transaction(models.Model):
     
     TYPES = (
@@ -67,7 +74,7 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=14, decimal_places=2)
     transaction_type = models.CharField(choices=TYPES, max_length=254)
     created = models.DateTimeField(default=timezone.now)
-    tags = models.ManyToManyField('Tag', blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
     account = models.ForeignKey('accounts.Account', related_name='transactions')
     budgets = models.ManyToManyField('budgets.Budget', blank=True,
                                      through='budgets.BudgetThroughModel')
@@ -160,10 +167,4 @@ class Color(models.Model):
     def __str__(self):
         return self.name
 
-
-class Tag(models.Model):
-    name = models.CharField(max_length=254)
-    
-    def __str__(self):
-        return self.name
 

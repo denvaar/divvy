@@ -8,7 +8,8 @@ from .models import (
     Transaction,
     Tag,
     BudgetThroughModel,
-    Color
+    Color,
+    Icon
 )
 
 
@@ -45,4 +46,5 @@ admin.site.register(BudgetThroughModel)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Tag)
 admin.site.register(Color)
+admin.site.register(Icon)
 

@@ -57,12 +57,14 @@ def get_budget_form(budget_type, user):
     }
     
     from apps.core.fields import DataModelChoiceField
-    from apps.budgets.models import Color
+    from apps.budgets.models import Color, Icon
     
     class BudgetForm(forms.ModelForm):
 
+        icon = DataModelChoiceField(queryset=Icon.objects.all(),
+                                    data_attributes={'meta':'value'})
         icon_color = DataModelChoiceField(queryset=Color.objects.all(),
-                                           data_attributes={'color':'value'})
+                                          data_attributes={'color':'value'})
 
         class Meta:
             model = Budget

@@ -11,10 +11,6 @@ def as_percentage(budget):
 
 @register.filter()
 def change_size(value, sz):
-    split_value = value.split(" ")
-    quote_char = split_value[2][-1]
-    classes = split_value[2][:-1]
-    classes += " {}{}".format(sz, quote_char)
-    split_value[2] = classes
-    return " ".join(split_value)
+    l = value.split("\">")
+    return l[0] + " {}\">".format(sz) + l[1]
     

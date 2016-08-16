@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.db.models.signals import post_delete
 from django.core.exceptions import ValidationError
 
@@ -28,6 +29,13 @@ class Budget(models.Model):
         ('daily', 'Daily'),
     )
 
+    ICONS = (
+        ('cube', 'Cube'),
+        ('car', 'Car'),
+        ('bicycle', 'Bicycle'),
+        ('plane', 'Airplane'),
+    )
+
     user = models.ForeignKey('accounts.AppUser', related_name='budgets')
     title = models.CharField(max_length=254)
     budget_type = models.CharField(choices=BUDGET_TYPES, max_length=254)
@@ -49,7 +57,7 @@ class Budget(models.Model):
                                          blank=True, null=True)
     created = models.DateTimeField(default=timezone.now) 
     icon_color = models.ForeignKey('budgets.Color')
-    icon = models.TextField(default="<i class='fa fa-cube' aria-hidden='true'></i>")
+    icon = models.ForeignKey('budgets.Icon')
 
     def __str__(self):
         return self.title
@@ -167,4 +175,14 @@ class Color(models.Model):
     def __str__(self):
         return self.name
 
+
+class Icon(models.Model):
+    name = models.CharField(max_length=254)
+    value = models.CharField(max_length=254)
+
+    def __str__(self):
+        return self.name
+        
+    def as_icon(self):
+        return mark_safe('<i class="fa fa-{}"></i>'.format(self.value))
 

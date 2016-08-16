@@ -1,0 +1,66 @@
+
+.custom-select {
+  cursor: default;
+  display: block;
+  position: relative;
+  width: 100%;
+  color: #1d485e;
+}
+
+.custom-select li {
+  padding-left: 10px;
+  padding-top: 5px;
+}
+.custom-select li:hover {
+  background: #f1f1f1;/*#208bfe;*/
+  /*color: #fff;*/
+}
+.active-item {
+  background: #f1f1f1;
+}
+.custom-select .placeholder {
+  background: #fff;
+  border-radius: 2px;
+  padding: 5px 10px 5px 10px;
+  display: block;
+  position: relative;
+}
+.custom-select .placeholder::after {
+  font-family: FontAwesome;
+  float: right;
+  content: "\f107";
+}
+.custom-select .placeholder-active::after {
+  font-family: FontAwesome;
+  float: right;
+  content: "\f106";
+}
+.custom-select .custom-options {
+  z-index: 2;
+  position: absolute;
+  background: #fff;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  /*transition: max-height 0.25s ease-out;*/
+}
+.custom-select .active-menu {
+  max-height: 300px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  margin-top: -2px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-y: scroll;
+}
+[data-label] {
+}
+[data-meta] {
+  vertical-align: middle;
+  text-align: center;
+}
+.custom-select ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}

@@ -1,0 +1,210 @@
+[
+   {
+      "model":"budgets.color",
+      "pk":1,
+      "fields":{
+         "name":"Happy Green",
+         "value":"#53DF83"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":2,
+      "fields":{
+         "name":"Flyby",
+         "value":"#47D2E9"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":3,
+      "fields":{
+         "name":"Concrete",
+         "value":"#EEEEEE"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":4,
+      "fields":{
+         "name":"The Dark Side",
+         "value":"#3F3F3F"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":5,
+      "fields":{
+         "name":"Flesh One",
+         "value":"#F7D6B5"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":6,
+      "fields":{
+         "name":"Flesh Two",
+         "value":"#E1B493"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":7,
+      "fields":{
+         "name":"Steel Cut",
+         "value":"#8199A3"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":8,
+      "fields":{
+         "name":"Outer Space",
+         "value":"#444B54"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":9,
+      "fields":{
+         "name":"Peachy",
+         "value":"#FABFA1"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":10,
+      "fields":{
+         "name":"Noble Blue",
+         "value":"#2980B9"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":11,
+      "fields":{
+         "name":"Spring",
+         "value":"#27AE60"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":12,
+      "fields":{
+         "name":"Creamy Purple",
+         "value":"#B0A4BE"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":13,
+      "fields":{
+         "name":"Mint",
+         "value":"#87E8C6"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":14,
+      "fields":{
+         "name":"Computer Blue",
+         "value":"#8FA8F6"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":15,
+      "fields":{
+         "name":"Flat Blue",
+         "value":"#8BCBDE"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":16,
+      "fields":{
+         "name":"Green Money One",
+         "value":"#6BB18C"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":17,
+      "fields":{
+         "name":"Hipster Radish",
+         "value":"#DC626F"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":18,
+      "fields":{
+         "name":"Deep Dive",
+         "value":"#16A086"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":19,
+      "fields":{
+         "name":"Tickle Tickle",
+         "value":"#F2E4F9"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":20,
+      "fields":{
+         "name":"Boring Babe",
+         "value":"#D8E2EC"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":21,
+      "fields":{
+         "name":"Flesh Three",
+         "value":"#F8D9D5"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":22,
+      "fields":{
+         "name":"Now That's Red",
+         "value":"#E74C3C"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":23,
+      "fields":{
+         "name":"Cool Blue",
+         "value":"#528CCB"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":24,
+      "fields":{
+         "name":"Military Surplus Store",
+         "value":"#6B9B61"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":25,
+      "fields":{
+         "name":"Lambda",
+         "value":"#F6CD61"
+      }
+   },
+   {
+      "model":"budgets.color",
+      "pk":26,
+      "fields":{
+         "name":"Lime Ricky",
+         "value":"#B7EF9C"
+      }
+   }
+]

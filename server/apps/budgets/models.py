@@ -71,7 +71,8 @@ class Tag(models.Model):
 
 
 class Transaction(models.Model):
-    
+    """Data model to represent a transaction"""
+
     TYPES = (
         ('debit', 'Debit'),
         ('credit', 'Credit'),

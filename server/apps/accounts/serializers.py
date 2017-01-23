@@ -1,10 +1,30 @@
 from django.contrib.auth import get_user_model
-
+from django import forms
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 
-from .models import Account
+from .models import Account, AppUser
 
+
+class AppUserSerializer(serializers.ModelSerializer):
+    
+    password = serializers.CharField(style={'input_type': 'password'})
+
+    class Meta:
+        model = AppUser
+        fields = ('id', 'first_name', 'last_name', 'email', 'password',)
+        extra_kwargs = {
+            'password': {
+                'write_only': True,
+            }
+        }
+
+    def create(self, validated_data):
+        instance = super().create(validated_data)
+        instance.set_password(self.initial_data.get('password'))
+        instance.save()
+        return instance
+        
 
 class UserSerializer(serializers.ModelSerializer):
     jwt = serializers.SerializerMethodField()
@@ -14,6 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'jwt', 'first_name', 'last_name',)
 
     def create(self, validated_data):
+        print('here')
         instance = super().create(validated_data)
         instance.set_password(self.initial_data.get('password'))
         instance.save()

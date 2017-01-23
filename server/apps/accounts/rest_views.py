@@ -11,6 +11,7 @@ from apps.accounts.models import AppUser
 from apps.accounts.serializers import (
     AccountSerializer,
     UserSerializer,
+    AppUserSerializer,
 )
 
 
@@ -45,3 +46,9 @@ class UserRetrieve(generics.RetrieveAPIView):
         if self.request.user.is_active:
             return user
         raise Http404('Invalid user')
+
+
+class AppUserCreate(generics.CreateAPIView):
+    model = AppUser
+    serializer_class = AppUserSerializer
+

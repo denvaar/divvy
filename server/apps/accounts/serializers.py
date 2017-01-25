@@ -34,7 +34,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'jwt', 'first_name', 'last_name',)
 
     def create(self, validated_data):
-        print('here')
         instance = super().create(validated_data)
         instance.set_password(self.initial_data.get('password'))
         instance.save()

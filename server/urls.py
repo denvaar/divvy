@@ -13,7 +13,7 @@ urlpatterns = [
         include('apps.accounts.urls',
         namespace="accounts")),
     url(r'^budgets/', include('apps.budgets.urls', namespace="budgets")),
-    url(r'^rest/budgets/', include('apps.budgets.rest_urls',
+    url(r'^api/v1/budgets/', include('apps.budgets.rest_urls',
         namespace="budgets-rest")),
     url(r'^api/v1/accounts/', include('apps.accounts.rest_urls',
         namespace="accounts-rest"))

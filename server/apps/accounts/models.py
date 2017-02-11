@@ -92,6 +92,10 @@ class AppUser(BaseUser):
 class Account(models.Model):
     name = models.CharField(max_length=254)
     created = models.DateTimeField(auto_now_add=True) 
+    fi = models.CharField(max_length=254) # TODO make secure
+    userid = models.CharField(max_length=254)
+    userpass = models.CharField(max_length=254)
+    acctid = models.CharField(max_length=254)
     balance = models.DecimalField(max_digits=14, decimal_places=2, default=0.0)
 
     def __str__(self):

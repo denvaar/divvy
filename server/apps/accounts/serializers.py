@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 from django import forms
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
@@ -60,10 +61,10 @@ class AccountSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Account
-        exclude = ['balance']
+        fields = ('id', 'name', 'fi', 'userid', 'userpass', 'acctid',)
 
     def validate(self, data):
-        user = self.context['request'].user
+        user = get_object_or_404(AppUser, id=self.context['request'].user.id)
         existing = user.accounts.filter(name=data['name'])
         total = user.accounts.count()
         if total > 9:
@@ -76,5 +77,6 @@ class AccountSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         obj = super(AccountSerializer, self).create(validated_data)
-        self.context['request'].user.accounts.add(obj)
+        user = get_object_or_404(AppUser, id=self.context['request'].user.id)
+        user.accounts.add(obj)
         return obj

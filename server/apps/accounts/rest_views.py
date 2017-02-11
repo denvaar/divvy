@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from apps.accounts.models import AppUser
+from apps.accounts.models import AppUser, Account
 from apps.accounts.serializers import (
     AccountSerializer,
     UserSerializer,
@@ -40,11 +40,11 @@ class SessionCreate(APIView):
 
 class UserRetrieve(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
+    serializer_class = AppUserSerializer
 
     def get_object(self):
         if self.request.user.is_active:
-            return user
+            return self.request.user
         raise Http404('Invalid user')
 
 
@@ -52,3 +52,8 @@ class AppUserCreate(generics.CreateAPIView):
     model = AppUser
     serializer_class = AppUserSerializer
 
+
+class AccountCreate(generics.CreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    model = Account
+    serializer_class = AccountSerializer

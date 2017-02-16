@@ -90,7 +90,7 @@ class Transaction(models.Model):
 
     def __str__(self):
         return "[ {2} ] {0}  {1}".format(self.name,
-            self.description, self.amount)
+            self.description or '', self.amount)
 
     def clean(self):
         if not self.transaction_type in [i[0] for i in self.TYPES]:

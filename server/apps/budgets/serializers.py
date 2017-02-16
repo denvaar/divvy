@@ -4,9 +4,13 @@ from .models import Transaction, BudgetThroughModel
 
 
 class TransactionSerializer(serializers.ModelSerializer):
+    transaction_type = serializers.CharField(
+        source='get_transaction_type_display')
+    
     class Meta:
         model = Transaction
         exclude = []
+
 
 
 class BudgetThroughModelSerializer(serializers.ModelSerializer):

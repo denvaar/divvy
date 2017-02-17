@@ -8,6 +8,7 @@ from apps.accounts.rest_views import (
     UserRetrieve,
     AppUserCreate,
     AccountCreate,
+    AccountList,
 )
 
 
@@ -17,4 +18,5 @@ urlpatterns = [
     url(r'^users/retrieve/?$', UserRetrieve.as_view(), name='user-retrieve'),
     url(r'^users/create/?$', AppUserCreate.as_view(), name='user-create'),
     url(r'^account-create/?$', AccountCreate.as_view(), name='account-create'),
+    url(r'^accounts/?$', AccountList.as_view(), name='account-list'),
 ]

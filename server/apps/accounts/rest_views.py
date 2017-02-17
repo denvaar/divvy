@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 
 from rest_framework import generics
 from rest_framework import status
@@ -57,3 +58,13 @@ class AccountCreate(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
     model = Account
     serializer_class = AccountSerializer
+
+
+class AccountList(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    model = Account
+    serializer_class = AccountSerializer
+    
+    def get_queryset(self):
+        user = get_object_or_404(AppUser, id=self.request.user.id)
+        return user.accounts.all()

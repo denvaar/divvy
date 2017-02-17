@@ -61,7 +61,16 @@ class AccountSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Account
-        fields = ('id', 'name', 'fi', 'userid', 'userpass', 'acctid',)
+        fields = ('id', 'name', 'fi', 'userid', 'userpass',
+                  'acctid', 'balance',)
+        extra_kwargs = {
+            'userpass': {
+                'write_only': True,
+            },
+            'balance': {
+                'read_only': True,
+            }
+        }
 
     def validate(self, data):
         user = get_object_or_404(AppUser, id=self.context['request'].user.id)

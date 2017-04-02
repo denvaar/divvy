@@ -77,7 +77,8 @@ class Transaction(models.Model):
         ('debit', 'Debit'),
         ('credit', 'Credit'),
     )
-
+    
+    ofx_id = models.CharField(max_length=254)
     name = models.CharField(max_length=254)
     description = models.CharField(max_length=254, blank=True, null=True)
     amount = models.DecimalField(max_digits=14, decimal_places=2)
@@ -87,6 +88,7 @@ class Transaction(models.Model):
     account = models.ForeignKey('accounts.Account', related_name='transactions')
     budgets = models.ManyToManyField('budgets.Budget', blank=True,
                                      through='budgets.BudgetThroughModel')
+    ignore = models.BooleanField(default=False)
 
     def __str__(self):
         return "[ {2} ] {0}  {1}".format(self.name,

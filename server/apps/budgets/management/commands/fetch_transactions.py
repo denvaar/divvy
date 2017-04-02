@@ -51,7 +51,8 @@ class Command(BaseCommand):
                 transaction_objects = []
                 for data in json.loads(transaction_data):
                     transaction_objects.append(
-                        Transaction(name=data['name'],
+                        Transaction(ofx_id=data['id'],
+                                    name=data['name'],
                                     amount=data['transactionAmount'],
                                     transaction_type=(
                                         data['transactionType'].lower()),

@@ -112,7 +112,7 @@ class Transaction(models.Model):
         total = sum(
             [i.amount for i in self.budget_through_models.all()]
         )
-        return self.amount - total
+        return abs(self.amount - total)
 
     def is_budgeted_for(self):
         if self.get_unbudgeted_amount() > 0:

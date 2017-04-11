@@ -89,6 +89,7 @@ class Transaction(models.Model):
     budgets = models.ManyToManyField('budgets.Budget', blank=True,
                                      through='budgets.BudgetThroughModel')
     ignore = models.BooleanField(default=False)
+    categorized = models.BooleanField(default=False)
 
     def __str__(self):
         return "[ {2} ] {0}  {1}".format(self.name,

@@ -1,6 +1,14 @@
 from rest_framework import serializers
 
-from .models import Transaction, BudgetThroughModel
+from .models import Transaction, Budget, BudgetThroughModel
+
+
+class BudgetSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Budget
+        fields = ('id', 'user', 'title', 'budget_type',
+                  'goal', 'amount',)
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -12,11 +20,11 @@ class TransactionSerializer(serializers.ModelSerializer):
         exclude = []
 
 
-
 class BudgetThroughModelSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = BudgetThroughModel
-        exclude = ['created']
+        fields = ('amount', 'budget', 'transaction')
 
     def validate(self, attrs):
         if attrs['amount'] > attrs['transaction'].amount:

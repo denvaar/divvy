@@ -53,14 +53,14 @@ class Command(BaseCommand):
                     transaction_objects.append(
                         Transaction(ofx_id=data['id'],
                                     name=data['name'],
-                                    amount=data['transactionAmount'],
+                                    amount=abs(data['transactionAmount']),
                                     transaction_type=(
                                         data['transactionType'].lower()),
                                     created=data['datePosted'],
                                     account=account)
                     )
                 Transaction.objects.bulk_create(transaction_objects)
-            except KeyError:
+            except (KeyError, Exception):
                 self.stdout.write(self.style.ERROR('failed!  ☹  ❌  '))
             else: 
                 self.stdout.write(self.style.SUCCESS('success! 🙂  ✅  '))

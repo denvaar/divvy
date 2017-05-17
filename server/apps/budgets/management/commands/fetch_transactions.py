@@ -1,5 +1,6 @@
 import json
 from datetime import timedelta, datetime
+from decimal import Decimal
 
 from django.core.management.base import BaseCommand, CommandError
 
@@ -53,14 +54,15 @@ class Command(BaseCommand):
                     transaction_objects.append(
                         Transaction(ofx_id=data['id'],
                                     name=data['name'],
-                                    amount=abs(data['transactionAmount']),
+                                    amount=abs(Decimal(data['transactionAmount'])),
                                     transaction_type=(
                                         data['transactionType'].lower()),
                                     created=data['datePosted'],
                                     account=account)
                     )
                 Transaction.objects.bulk_create(transaction_objects)
-            except (KeyError, Exception):
+            except (KeyError, Exception) as e:
                 self.stdout.write(self.style.ERROR('failed!  ☹  ❌  '))
+                self.stdout.write(self.style.ERROR(e))
             else: 
                 self.stdout.write(self.style.SUCCESS('success! 🙂  ✅  '))

@@ -58,4 +58,4 @@ class TransactionList(generics.ListAPIView):
     serializer_class = TransactionSerializer
     
     def get_queryset(self):
-        return users_own_transactions(self.request.user.id)
+        return users_own_transactions(self.request.user.id).order_by('-created')

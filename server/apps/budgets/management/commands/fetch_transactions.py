@@ -51,15 +51,16 @@ class Command(BaseCommand):
                 )
                 transaction_objects = []
                 for data in json.loads(transaction_data):
-                    transaction_objects.append(
-                        Transaction(ofx_id=data['id'],
-                                    name=data['name'],
-                                    amount=abs(Decimal(data['transactionAmount'])),
-                                    transaction_type=(
-                                        data['transactionType'].lower()),
-                                    created=data['datePosted'],
-                                    account=account)
-                    )
+                    if abs(Decimal(data['transactionAmount'])) > 0:
+                        transaction_objects.append(
+                            Transaction(ofx_id=data['id'],
+                                        name=data['name'],
+                                        amount=abs(Decimal(data['transactionAmount'])),
+                                        transaction_type=(
+                                            data['transactionType'].lower()),
+                                        created=data['datePosted'],
+                                        account=account)
+                        )
                 Transaction.objects.bulk_create(transaction_objects)
             except (KeyError, Exception) as e:
                 self.stdout.write(self.style.ERROR('failed!  ☹  ❌  '))
